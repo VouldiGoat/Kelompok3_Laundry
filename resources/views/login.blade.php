@@ -61,7 +61,7 @@
 
 
                 <!-- FORM -->
-                <form action="{{ route('/login') }}" method="POST">
+                <form action="{{ url('/login') }}" method="POST">
 
                     @csrf
 
@@ -83,7 +83,7 @@
                             >
 
                             <span class="input-icon">
-                                👤
+                                
                             </span>
 
                         </div>
@@ -109,7 +109,7 @@
                             >
 
                             <span class="input-icon">
-                                🔑
+                                
                             </span>
 
                         </div>
