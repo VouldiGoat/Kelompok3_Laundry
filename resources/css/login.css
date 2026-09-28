@@ -1,0 +1,401 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =====================================
+   CONTAINER UTAMA
+===================================== */
+
+.login-wrapper {
+    width: 95%;
+    max-width: 1450px;
+    height: 850px;
+
+    display: flex;
+
+    background: white;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =====================================
+   BAGIAN KIRI
+===================================== */
+
+.login-left {
+    width: 50%;
+    height: 100%;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #c9f4a9;
+}
+
+
+/* Teks kiri */
+
+.left-content {
+    position: absolute;
+
+    top: 90px;
+    left: 40px;
+    right: 40px;
+
+    text-align: center;
+
+    z-index: 2;
+}
+
+.left-content h1 {
+    font-size: 48px;
+
+    line-height: 1.15;
+
+    color: #08752f;
+
+    font-weight: 800;
+
+    text-shadow:
+        2px 2px 0 white,
+        -1px -1px 0 white;
+}
+
+.left-content p {
+    margin-top: 25px;
+
+    font-size: 24px;
+
+    line-height: 1.4;
+
+    color: #176b35;
+
+    font-weight: 600;
+}
+
+
+/* Gambar kiri */
+
+.laundry-image {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    left: 0;
+    top: 0;
+
+    object-fit: cover;
+
+    z-index: 1;
+}
+
+
+/*
+Jika gambar yang digunakan sudah mengandung
+teks dan background seperti desain Figma,
+maka teks .left-content bisa dihapus.
+*/
+
+
+/* =====================================
+   BAGIAN KANAN
+===================================== */
+
+.login-right {
+    width: 50%;
+    height: 100%;
+
+    background: #ffffff;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Form */
+
+.login-form {
+    width: 70%;
+    max-width: 450px;
+
+    text-align: left;
+}
+
+
+/* =====================================
+   LOGO
+===================================== */
+
+.logo {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 35px;
+}
+
+.logo img {
+    width: 310px;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* =====================================
+   TITLE
+===================================== */
+
+.login-form h2 {
+    text-align: center;
+
+    font-size: 30px;
+
+    color: #111111;
+
+    margin-bottom: 5px;
+}
+
+.login-subtitle {
+    text-align: center;
+
+    font-size: 16px;
+
+    color: #999999;
+
+    margin-bottom: 50px;
+}
+
+
+/* =====================================
+   FORM
+===================================== */
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #222222;
+
+    margin-bottom: 10px;
+}
+
+
+/* Input */
+
+.input-box {
+    position: relative;
+
+    width: 100%;
+}
+
+.input-box input {
+    width: 100%;
+
+    height: 55px;
+
+    padding: 0 55px 0 18px;
+
+    border: 2px solid #d0d0d0;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    color: #333;
+
+    transition: 0.2s;
+}
+
+.input-box input:focus {
+    border-color: #55c94d;
+
+    box-shadow:
+        0 0 0 3px rgba(85, 201, 77, 0.12);
+}
+
+.input-box input::placeholder {
+    color: #777;
+}
+
+
+/* Icon */
+
+.input-icon {
+    position: absolute;
+
+    right: 17px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 22px;
+}
+
+
+/* =====================================
+   REMEMBER ME
+===================================== */
+
+.remember {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: -15px;
+
+    margin-bottom: 35px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+.remember input {
+    width: 20px;
+    height: 20px;
+
+    cursor: pointer;
+
+    accent-color: #55d34d;
+}
+
+.remember label {
+    cursor: pointer;
+}
+
+
+/* =====================================
+   BUTTON
+===================================== */
+
+.login-button {
+    width: 100%;
+
+    height: 58px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #55d34d;
+
+    color: white;
+
+    font-size: 25px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.login-button:hover {
+    background: #42bd3b;
+
+    transform: translateY(-1px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1000px) {
+
+    .login-wrapper {
+        height: auto;
+
+        min-height: 700px;
+    }
+
+    .login-left {
+        display: none;
+    }
+
+    .login-right {
+        width: 100%;
+
+        min-height: 700px;
+    }
+
+    .login-form {
+        width: 80%;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    body {
+        background: white;
+    }
+
+    .login-wrapper {
+        width: 100%;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+    .login-form {
+        width: 85%;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .login-form h2 {
+        font-size: 26px;
+    }
+
+    .login-button {
+        font-size: 20px;
+    }
+}
