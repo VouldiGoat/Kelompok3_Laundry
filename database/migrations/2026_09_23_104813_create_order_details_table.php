@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('order_detail_id');
 
             $table->unsignedBigInteger('orders_id');
-            $table->unsignedBigInteger('services_id');
 
             $table->enum('orders_status', [
                 'PENDING',
