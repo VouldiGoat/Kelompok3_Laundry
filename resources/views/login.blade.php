@@ -32,7 +32,7 @@
             </div>
 
             <img
-                src="{{ asset('images/laundry-login.jpg') }}"
+                src="{{ asset('images/laundry-login.jpeg') }}"
                 alt="Laundry"
                 class="laundry-image"
             >
