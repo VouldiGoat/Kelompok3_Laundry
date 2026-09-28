@@ -32,7 +32,7 @@
             </div>
 
             <img
-                src="{{ asset('images/laundry-login.jpg') }}"
+                src="{{ asset('images/laundry-login.jpeg') }}"
                 alt="Laundry"
                 class="laundry-image"
             >
@@ -48,7 +48,7 @@
                 <!-- LOGO -->
                 <div class="logo">
                     <img
-                        src="{{ asset('images/logo-laundry.png') }}"
+                        src="{{ asset('images/logo-laundry.jpeg') }}"
                         alt="Laundry Azzam"
                     >
                 </div>
