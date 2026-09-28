@@ -48,7 +48,7 @@
                 <!-- LOGO -->
                 <div class="logo">
                     <img
-                        src="{{ asset('images/logo-laundry.jpeg') }}"
+                        src="{{ asset('images/logo-laundry.png') }}"
                         alt="Laundry Azzam"
                     >
                 </div>
