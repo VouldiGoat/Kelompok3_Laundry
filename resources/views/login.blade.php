@@ -61,7 +61,7 @@
 
 
                 <!-- FORM -->
-                <form action="{{ route('login') }}" method="POST">
+                <form action="{{ route('/login') }}" method="POST">
 
                     @csrf
 
