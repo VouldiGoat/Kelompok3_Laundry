@@ -59,9 +59,13 @@
                     Please login to continue
                 </p>
 
-
+                @if($errors->any())
+                <div>
+                    {{ $errors->first() }}
+                    </div>
+            @endif
                 <!-- FORM -->
-                <form action="{{ url('/login') }}" method="POST">
+                <form action="{{ route('login.process') }}" method="POST">
 
                     @csrf
 

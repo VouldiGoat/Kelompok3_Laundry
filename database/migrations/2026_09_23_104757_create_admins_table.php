@@ -15,8 +15,6 @@ return new class extends Migration
             $table->bigIncrements('admin_id');
             $table->string('username', 100);
             $table->string('password', 255);
-            $table->string('email', 100);
-            $table->string('nomor_telepon', 20);
         });
     }
 
