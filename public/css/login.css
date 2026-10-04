@@ -221,34 +221,6 @@ body {
 }
 
 
-/* =====================================
-   REMEMBER ME
-===================================== */
-
-.remember {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-
-    margin-top: -8px;
-    margin-bottom: 22px;
-
-    color: #777;
-    font-size: 14px;
-}
-
-.remember input {
-    width: 20px;
-    height: 20px;
-
-    cursor: pointer;
-    accent-color: #55d34d;
-}
-
-.remember label {
-    cursor: pointer;
-}
-
 
 /* =====================================
    BUTTON

@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $payments = Payment::orderBy('payment_id', 'desc')->get();
         $reviews = Review::orderBy('reviews_id', 'desc')->get();
 
-        return view('dashboard', compact(
+        $response = response()->view('dashboard', compact(
             'adminCount',
             'serviceCount',
             'orderCount',
@@ -48,5 +48,14 @@ class DashboardController extends Controller
             'payments',
             'reviews'
         ));
+
+        $response->headers->set(
+            'Cache-Control',
+            'no-cache, no-store, must-revalidate'
+        );
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+
+        return $response;
     }
 }

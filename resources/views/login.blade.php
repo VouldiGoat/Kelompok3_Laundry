@@ -120,23 +120,6 @@
 
                     </div>
 
-
-                    <!-- REMEMBER ME -->
-                    <div class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="remember"
-                            name="remember"
-                        >
-
-                        <label for="remember">
-                            Remember Me
-                        </label>
-
-                    </div>
-
-
                     <!-- BUTTON -->
                     <button
                         type="submit"
