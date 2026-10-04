@@ -1,11 +1,18 @@
 :root {
-    --green-900: #14532d;
-    --green-800: #166534;
-    --green-700: #15803d;
-    --green-100: #dcfce7;
-    --green-50: #f0fdf4;
-    --text-main: #1f2937;
+    --green-dark: #15803d;
+    --green-main: #22c55e;
+    --green-soft: #dcfce7;
+    --green-light: #f0fdf4;
+    --green-border: #bbf7d0;
+
+    --white: #ffffff;
+
+    --text-main: #166534;
+    --text-dark: #1f2937;
     --text-muted: #64748b;
+
+    --red: #dc2626;
+    --red-dark: #b91c1c;
 }
 
 * {
@@ -16,8 +23,8 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--green-50);
-    color: var(--text-main);
+    background: var(--green-light);
+    color: var(--text-dark);
 }
 
 .dashboard-wrapper {
@@ -32,32 +39,52 @@ body {
 
 .sidebar {
     width: 250px;
-    background: var(--green-900);
-    color: white;
+
+    background: var(--white);
+
+    color: var(--text-main);
+
     padding: 25px 18px;
+
     position: fixed;
+
     top: 0;
     left: 0;
     bottom: 0;
 
     display: flex;
     flex-direction: column;
+
+    border-right: 1px solid var(--green-border);
+
+    box-shadow: 2px 0 10px rgba(21, 128, 61, 0.05);
 }
 
+
+/* LOGO */
+
 .logo-section {
-    padding: 10px 12px 30px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 12px 25px;
+
+    border-bottom: 1px solid var(--green-border);
 }
 
 .logo-section h2 {
     font-size: 21px;
+
     margin-bottom: 6px;
+
+    color: var(--green-dark);
 }
 
 .logo-section p {
-    color: #bbf7d0;
+    color: var(--text-muted);
+
     font-size: 13px;
 }
+
+
+/* MENU */
 
 .sidebar nav {
     margin-top: 25px;
@@ -65,10 +92,13 @@ body {
 
 .sidebar nav a {
     display: block;
+
     text-decoration: none;
-    color: #dcfce7;
+
+    color: var(--text-main);
 
     padding: 12px 14px;
+
     margin-bottom: 6px;
 
     border-radius: 8px;
@@ -77,48 +107,67 @@ body {
 }
 
 .sidebar nav a:hover {
-    background: var(--green-800);
-    color: white;
+    background: var(--green-light);
+
+    color: var(--green-dark);
 }
 
 .sidebar nav a.active {
-    background: #22c55e;
-    color: white;
+    background: var(--green-soft);
+
+    color: var(--green-dark);
+
+    font-weight: bold;
 }
+
+
+/* SIDEBAR BOTTOM */
 
 .sidebar-bottom {
     margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-top: 1px solid var(--green-border);
+
     padding-top: 20px;
 }
 
 .admin-name {
     font-size: 13px;
-    color: #bbf7d0;
+
+    color: var(--text-muted);
+
     margin-bottom: 15px;
 }
 
 .admin-name strong {
-    color: white;
+    color: var(--green-dark);
 }
+
+
+/* LOGOUT */
 
 .logout-button {
     width: 100%;
+
     padding: 10px;
 
     border: none;
+
     border-radius: 7px;
 
-    background: #dc2626;
+    background: var(--red);
+
     color: white;
 
     cursor: pointer;
 
     font-size: 14px;
+
+    transition: 0.2s;
 }
 
 .logout-button:hover {
-    background: #b91c1c;
+    background: var(--red-dark);
 }
 
 
@@ -128,25 +177,40 @@ body {
 
 .main-content {
     width: calc(100% - 250px);
+
     margin-left: 250px;
 
     padding: 35px;
 }
 
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .top-header {
     margin-bottom: 30px;
+
+    background: var(--green-soft);
+
+    padding: 25px 30px;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--green-border);
 }
 
 .top-header h1 {
     font-size: 30px;
+
     margin-bottom: 8px;
+
+    color: var(--green-dark);
 }
 
 .top-header p {
     color: var(--text-muted);
+
     font-size: 14px;
 }
 
@@ -166,19 +230,29 @@ body {
 }
 
 .stat-card {
-    background: white;
+    background: var(--white);
 
-    border-radius: 8px;
+    border-radius: 10px;
 
     padding: 22px;
 
     display: flex;
+
     align-items: center;
 
     gap: 18px;
 
-    border: 1px solid #bbf7d0;
-    box-shadow: 0 3px 10px rgba(20, 83, 45, 0.07);
+    border: 1px solid var(--green-border);
+
+    box-shadow: 0 3px 10px rgba(21, 128, 61, 0.06);
+
+    transition: 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(21, 128, 61, 0.1);
 }
 
 .stat-icon {
@@ -188,17 +262,19 @@ body {
     border-radius: 10px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background: var(--green-100);
-    color: var(--green-800);
+    background: var(--green-soft);
+
+    color: var(--green-dark);
 
     font-size: 23px;
 }
 
 .stat-card p {
-    color: var(--green-800);
+    color: var(--green-dark);
 
     font-size: 13px;
 
@@ -207,6 +283,8 @@ body {
 
 .stat-card h2 {
     font-size: 25px;
+
+    color: var(--green-main);
 }
 
 
@@ -215,14 +293,15 @@ body {
 ========================= */
 
 .data-section {
-    background: white;
+    background: var(--white);
 
-    border-radius: 8px;
+    border-radius: 10px;
 
     margin-bottom: 30px;
 
-    border: 1px solid #bbf7d0;
-    box-shadow: 0 3px 10px rgba(20, 83, 45, 0.07);
+    border: 1px solid var(--green-border);
+
+    box-shadow: 0 3px 10px rgba(21, 128, 61, 0.06);
 
     overflow: hidden;
 }
@@ -230,14 +309,17 @@ body {
 .section-header {
     padding: 22px 25px;
 
-    background: var(--green-100);
-    border-bottom: 1px solid #bbf7d0;
+    background: var(--green-soft);
+
+    border-bottom: 1px solid var(--green-border);
 }
 
 .section-header h2 {
     font-size: 20px;
 
     margin-bottom: 5px;
+
+    color: var(--green-dark);
 }
 
 .section-header p {
@@ -266,7 +348,7 @@ table {
 }
 
 thead {
-    background: var(--green-50);
+    background: var(--green-light);
 }
 
 th {
@@ -276,9 +358,9 @@ th {
 
     font-size: 13px;
 
-    color: var(--green-800);
+    color: var(--green-dark);
 
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--green-border);
 }
 
 td {
@@ -286,13 +368,13 @@ td {
 
     font-size: 14px;
 
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #ecfdf5;
 
     vertical-align: top;
 }
 
 tbody tr:hover {
-    background: var(--green-50);
+    background: var(--green-light);
 }
 
 
@@ -313,9 +395,9 @@ tbody tr:hover {
 }
 
 .status.active {
-    background: #dcfce7;
+    background: var(--green-soft);
 
-    color: #166534;
+    color: var(--green-dark);
 }
 
 .status.inactive {
@@ -340,8 +422,9 @@ tbody tr:hover {
 
     padding: 5px 9px;
 
-    background: var(--green-100);
-    color: var(--green-800);
+    background: var(--green-soft);
+
+    color: var(--green-dark);
 
     border-radius: 5px;
 }
@@ -411,6 +494,10 @@ tbody tr:hover {
         width: 100%;
 
         min-height: auto;
+
+        border-right: none;
+
+        border-bottom: 1px solid var(--green-border);
     }
 
     .dashboard-wrapper {
