@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Service;
 use App\Models\Order;
 use App\Models\OrderDetail;

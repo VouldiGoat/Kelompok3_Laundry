@@ -135,6 +135,16 @@
         </div>
 
     </div>
+<script>
+    
+    for (let i = 0; i < 10; i++) {
+        history.pushState({ dashboard: true }, '', location.href);
+    }
+
+    window.addEventListener('popstate', function () {
+        history.pushState({ dashboard: true }, '', location.href);
+    });
+</script>
 
 </body>
 
