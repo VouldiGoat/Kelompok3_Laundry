@@ -8,11 +8,20 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman login
-    public function showLogin()
-    {
-        return view('login');
+public function showLogin()
+{
+    if (session()->has('admin_id')) {
+        return redirect('/dashboard');
     }
+
+    $response = response()->view('login');
+
+    $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    $response->header('Pragma', 'no-cache');
+    $response->header('Expires', '0');
+
+    return $response;
+}
 
     // Memproses login
     public function login(Request $request)
@@ -46,12 +55,13 @@ class AuthController extends Controller
     }
 
     // Logout
-    public function logout()
-    {
-        session()->forget([
+    public function logout(Request $request){
+        $request->session()->forget([
             'admin_id',
             'admin_username',
         ]);
+
+        $request->session()->regenerate();
 
         return redirect('/login');
     }
