@@ -34,7 +34,6 @@ class DashboardController extends Controller
         $reviews = Review::orderBy('reviews_id', 'desc')->get();
 
         $response = response()->view('dashboard', compact(
-            'adminCount',
             'serviceCount',
             'orderCount',
             'orderDetailCount',

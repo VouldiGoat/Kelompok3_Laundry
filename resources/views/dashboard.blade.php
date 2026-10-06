@@ -81,16 +81,9 @@
             <!-- STAT CARDS -->
             <div class="stats-grid">
 
+                <!-- TOTAL SERVICES -->
                 <div class="stat-card">
                     <div class="stat-icon">
-                        
-                    </div>
-
-
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        
                     </div>
 
                     <div>
@@ -99,10 +92,9 @@
                     </div>
                 </div>
 
-
+                <!-- TOTAL ORDERS -->
                 <div class="stat-card">
                     <div class="stat-icon">
-                        
                     </div>
 
                     <div>
@@ -111,10 +103,9 @@
                     </div>
                 </div>
 
-
+                <!-- ORDER DETAILS -->
                 <div class="stat-card">
                     <div class="stat-icon">
-                        
                     </div>
 
                     <div>
@@ -123,10 +114,9 @@
                     </div>
                 </div>
 
-
+                <!-- TOTAL PAYMENTS -->
                 <div class="stat-card">
                     <div class="stat-icon">
-                        
                     </div>
 
                     <div>
@@ -135,10 +125,9 @@
                     </div>
                 </div>
 
-
+                <!-- TOTAL REVIEWS -->
                 <div class="stat-card">
                     <div class="stat-icon">
-                        
                     </div>
 
                     <div>
@@ -148,6 +137,7 @@
                 </div>
 
             </div>
+
 
             <!-- SERVICES -->
             <section class="data-section">
