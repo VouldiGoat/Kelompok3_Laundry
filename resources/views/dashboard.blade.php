@@ -86,11 +86,6 @@
                         
                     </div>
 
-                    <div>
-                        <p>Total Admin</p>
-                        <h2>{{ $adminCount }}</h2>
-                    </div>
-                </div>
 
 
                 <div class="stat-card">
@@ -153,65 +148,6 @@
                 </div>
 
             </div>
-
-
-            <!-- ADMINS -->
-            <section class="data-section">
-
-                <div class="section-header">
-                    <div>
-                        <h2>Data Admin</h2>
-                        <p>Daftar admin yang terdaftar.</p>
-                    </div>
-                </div>
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Nomor Telepon</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @forelse($admins as $admin)
-
-                                <tr>
-                                    <td>{{ $admin->admin_id }}</td>
-
-                                    <td>
-                                        <strong>{{ $admin->username }}</strong>
-                                    </td>
-
-                                    <td>{{ $admin->email }}</td>
-
-                                    <td>{{ $admin->nomor_telepon }}</td>
-                                </tr>
-
-                            @empty
-
-                                <tr>
-                                    <td colspan="4" class="empty">
-                                        Belum ada data admin.
-                                    </td>
-                                </tr>
-
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
 
             <!-- SERVICES -->
             <section class="data-section">

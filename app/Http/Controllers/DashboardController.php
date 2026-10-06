@@ -19,7 +19,6 @@ class DashboardController extends Controller
         }
 
         // Jumlah data
-        $adminCount = Admin::count();
         $serviceCount = Service::count();
         $orderCount = Order::count();
         $orderDetailCount = OrderDetail::count();
