@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\Service;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -26,20 +25,19 @@ class DashboardController extends Controller
         $reviewCount = Review::count();
 
         // Ambil semua data
-        $admins = Admin::orderBy('admin_id', 'desc')->get();
         $services = Service::orderBy('services_id', 'desc')->get();
         $orders = Order::orderBy('orders_id', 'desc')->get();
         $orderDetails = OrderDetail::orderBy('order_detail_id', 'desc')->get();
         $payments = Payment::orderBy('payment_id', 'desc')->get();
         $reviews = Review::orderBy('reviews_id', 'desc')->get();
 
+        // Tampilkan Dashboard
         $response = response()->view('dashboard', compact(
             'serviceCount',
             'orderCount',
             'orderDetailCount',
             'paymentCount',
             'reviewCount',
-            'admins',
             'services',
             'orders',
             'orderDetails',
@@ -47,6 +45,7 @@ class DashboardController extends Controller
             'reviews'
         ));
 
+        // Mencegah halaman Dashboard ditampilkan dari cache browser
         $response->headers->set(
             'Cache-Control',
             'no-cache, no-store, must-revalidate'
