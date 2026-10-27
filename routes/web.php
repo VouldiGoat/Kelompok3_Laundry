@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
+// Landing Page
+Route::get('/', function () {
+    return view('landing.home');
+})->name('home');
+
 Route::get('/login', [AuthController::class, 'showLogin'])
     ->name('login');
 
