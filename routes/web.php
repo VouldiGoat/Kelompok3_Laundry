@@ -9,14 +9,25 @@ Route::get('/', function () {
     return view('landing.home');
 })->name('home');
 
-Route::get('/login', [AuthController::class, 'showLogin'])
-    ->name('login');
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
 
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login.process');
+Route::post('/login', function () {
+    return redirect()->route('dashboard');
+})->name('login.process');
 
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::get('/pesanan', function () {
+    return view('pesanan');
+})->name('pesanan');
+
+Route::get('/layanan', function () {
+    return view('layanan');
+})->name('layanan');
