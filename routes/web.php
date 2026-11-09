@@ -31,3 +31,7 @@ Route::get('/pesanan', function () {
 Route::get('/layanan', function () {
     return view('layanan');
 })->name('layanan');
+
+Route::get('/detail-pesanan', function () {
+    return view('detail_pesanan');
+})->name('detail_pesanan');
