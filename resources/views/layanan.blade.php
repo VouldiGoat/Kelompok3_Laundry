@@ -75,6 +75,15 @@
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
                     <span class="pagination-info">Menampilkan 0 dari 0 layanan</span>
+                    <div class="pagination">
+                        <button class="page-btn page-nav" title="Sebelumnya" disabled>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <button class="page-btn page-num active">1</button>
+                        <button class="page-btn page-nav" title="Selanjutnya">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
