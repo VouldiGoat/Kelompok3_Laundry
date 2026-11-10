@@ -66,14 +66,54 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="8" class="empty-state">Belum ada data pesanan.</td>
-                            </tr>
+                            @forelse ($orders as $order)
+                                <tr>
+                                    {{-- Nomor urut --}}
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    {{-- Nomor pesanan --}}
+                                    <td>
+                                        ORD-{{ str_pad($order->orders_id, 5, '0', STR_PAD_LEFT) }}
+                                    </td>
+
+                                    {{-- Nama pelanggan --}}
+                                    <td>{{ $order->nama_pemesan }}</td>
+
+                                    {{-- Jenis layanan --}}
+                                    <td>{{ $order->services_name ?? '-' }}</td>
+
+                                    {{-- Tanggal masuk --}}
+                                    <td>
+                                        {{ $order->created_at
+                                            ? \Carbon\Carbon::parse($order->created_at)->format('d/m/Y')
+                                            : '-' }}
+                                    </td>
+
+                                    {{-- Status pesanan --}}
+                                    <td>{{ $order->orders_status ?? 'PENDING' }}</td>
+
+                                    {{-- Total harga --}}
+                                    <td>
+                                        Rp {{ number_format($order->total, 0, ',', '.') }}
+                                    </td>
+
+                                    {{-- Aksi --}}
+                                    <td>-</td>
+                                </tr>
+
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="empty-state">
+                                        Belum ada data pesanan.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
+
                     </table>
                 </div>
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 0 dari 0 pesanan</span>
+                    <span class="pagination-info">Menampilkan {{ $orders->count() }} dari {{ $orders->count() }} pesanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
