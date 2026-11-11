@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\LayananController;
 
 // Landing Page
 Route::get('/', function () {
@@ -32,11 +33,9 @@ Route::get('/pesanan', [PesananController::class, 'index'])
     ->name('pesanan');
 
 // Layanan
-Route::get('/layanan', function () {
-    return view('layanan');
-})->name('layanan');
+Route::get('/layanan', [LayananController::class, 'index'])
+    ->name('layanan');
 
 // Detail Pesanan
-Route::get('/detail-pesanan', function () {
-    return view('detail_pesanan');
-})->name('detail_pesanan');
+Route::get('/detail-pesanan', [PesananController::class, 'show'])
+    ->name('detail_pesanan');

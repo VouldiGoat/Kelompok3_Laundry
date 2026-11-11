@@ -59,22 +59,51 @@
                                 <th>Nama Layanan</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
-                                <th>Estimasi</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="7" class="empty-state">Belum ada data layanan.</td>
-                            </tr>
+                            @forelse ($layanans as $layanan)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>{{ $layanan->services_name }}</td>
+
+                                    <td>
+                                        Rp {{ number_format($layanan->price, 0, ',', '.') }}
+                                    </td>
+
+                                    <td>{{ $layanan->description ?? '-' }}</td>
+
+                                    <td>
+                                        @if ($layanan->is_active)
+                                            <span class="status-active">Aktif</span>
+                                        @else
+                                            <span class="status-inactive">Nonaktif</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        {{-- Tombol aksi bisa ditambahkan di sini --}}
+                                        <button class="btn-edit">Edit</button>
+                                        <button class="btn-delete">Hapus</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="empty-state">
+                                        Belum ada data layanan.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 0 dari 0 layanan</span>
+                    <span class="pagination-info">Menampilkan {{ $layanans->count() }} dari {{ $layanans->count() }} layanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
