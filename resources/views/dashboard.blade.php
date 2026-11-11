@@ -18,7 +18,7 @@
             <header class="topbar">
                 <div class="user-pill">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="#23783b"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
-                    <span>Admin</span>
+                    <span>{{ session('admin_username', 'Admin') }}</span>
                 </div>
             </header>
 
@@ -52,8 +52,8 @@
                     </div>
                     <div>
                         <small>Total Pesanan</small>
-                        <h2>0</h2>
-                        <span>0 dari kemarin</span>
+                        <h2>{{ $totalOrders }}</h2>
+                        <span>Total pesanan tersimpan</span>
                     </div>
                 </div>
 
@@ -66,9 +66,9 @@
                         </svg>
                     </div>
                     <div>
-                        <small>Dalam Proses</small>
-                        <h2>0</h2>
-                        <span>0 dari kemarin</span>
+                        <small>Menunggu Diproses</small>
+                        <h2>{{ $pendingOrders }}</h2>
+                        <span>Status PENDING</span>
                     </div>
                 </div>
 
@@ -82,8 +82,8 @@
                     </div>
                     <div>
                         <small>Selesai</small>
-                        <h2>0</h2>
-                        <span>0 dari kemarin</span>
+                        <h2>{{ $completedOrders }}</h2>
+                        <span>Status COMPLETE</span>
                     </div>
                 </div>
             </section>
@@ -113,9 +113,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="5" class="empty-state">Belum ada pesanan terbaru.</td>
-                                    </tr>
+                                    @forelse($recentOrders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->nama_pemesan }}</td>
+                                            <td>{{ $order->services_name ?? '-' }}</td>
+                                            <td>{{ $order->orders_status ?? 'PENDING' }}</td>
+                                            <td>{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('d/m/Y') : '-' }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="5" class="empty-state">Belum ada pesanan terbaru.</td></tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -128,21 +136,18 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#23783b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                                 <h3>Grafik Pesanan</h3>
                             </div>
-                            <a href="#" class="btn-more">Lihat Semua &rarr;</a>
+                            <span class="btn-more">Tahun {{ $chartYear }}</span>
                         </div>
                         <div class="chart-box">
                             <div class="chart-y">
                                 <span>20</span><span>15</span><span>10</span><span>5</span><span>0</span>
                             </div>
                             <div class="chart-bars">
-                                @php
-                                    $chartMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-                                @endphp
-                                @foreach($chartMonths as $month)
-                                <div class="bar-col">
-                                    <div class="bar-fill" style="height: 0%"></div>
-                                    <span class="bar-lbl">{{ $month }}</span>
-                                </div>
+                                @foreach($chartData as $month)
+                                    <div class="bar-col" title="{{ $month['count'] }} pesanan pada {{ $month['month'] }}">
+                                        <div class="bar-fill" style="height: {{ $month['height'] }}%"></div>
+                                        <span class="bar-lbl">{{ $month['month'] }}</span>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -160,7 +165,17 @@
                             </div>
                         </div>
                         <div class="activity-list">
-                            <div class="activity-empty">Belum ada aktivitas selesai.</div>
+                            @forelse($completedActivities as $activity)
+                                <div class="activity-item">
+                                    <div class="act-text">
+                                        <strong>{{ $activity->nama_pemesan }}</strong>
+                                        <span>{{ $activity->services_name ?? 'Layanan' }} · Pesanan #{{ $activity->orders_id }}</span>
+                                    </div>
+                                    <small class="act-time">{{ $activity->updated_at ? \Carbon\Carbon::parse($activity->updated_at)->format('d/m/Y H:i') : '-' }}</small>
+                                </div>
+                            @empty
+                                <div class="activity-empty">Belum ada aktivitas selesai.</div>
+                            @endforelse
                         </div>
                     </div>
 
@@ -174,7 +189,19 @@
                             <a href="{{ route('layanan') }}" class="btn-more">Lihat Semua &rarr;</a>
                         </div>
                         <div class="popular-list">
-                            <div class="activity-empty">Belum ada data layanan populer.</div>
+                            @forelse($popularServices as $popular)
+                                <div class="popular-item">
+                                    <small>{{ $popular->services_name }} — {{ $popular->total_orders }} pesanan</small>
+                                    <div class="prog-bar">
+                                        <div
+                                            class="prog-fill"
+                                            style="width: {{ ($popular->total_orders / $maxPopularOrders) * 100 }}%"
+                                        ></div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="activity-empty">Belum ada data layanan populer.</div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

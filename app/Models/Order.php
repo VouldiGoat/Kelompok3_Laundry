@@ -11,17 +11,19 @@ class Order extends Model
     protected $primaryKey = 'orders_id';
 
     protected $fillable = [
-        'services_id',
-        'nama_pemesan',
-        'addresses',
-        'pickup_date',
-        'satuan',
-        'pickup_time',
-        'delivery_date',
-        'subtotal',
-        'delivery_fee',
-        'total',
-        'notes',
+    'services_id',
+    'nama_pemesan',
+    'addresses',
+    'pickup_date',
+    'satuan',
+    'pickup_time',
+    'delivery_date',
+    'subtotal',
+    'delivery_fee',
+    'total',
+    'notes',
+    'orders_status',
+    'order_detail_dok',
     ];
 
     protected $casts = [

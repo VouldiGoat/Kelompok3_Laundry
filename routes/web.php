@@ -24,9 +24,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 // Dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');;
 
 // Pesanan
 Route::get('/pesanan', [PesananController::class, 'index'])
