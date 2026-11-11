@@ -136,7 +136,7 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#23783b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                                 <h3>Grafik Pesanan</h3>
                             </div>
-                            <span class="btn-more">Tahun {{ $chartYear }}</span>
+                            <a href="{{ route('pesanan') }}" class="btn-more">Lihat Semua &rarr;</a>
                         </div>
                         <div class="chart-box">
                             <div class="chart-y">
