@@ -6,7 +6,7 @@
     <title>Pesanan - Laundry Azzam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/pesanan.css') }}">
 </head>
 <body>
@@ -17,7 +17,7 @@
             {{-- Topbar --}}
             <header class="topbar">
                 <div class="user-pill">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#2e7d32"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#23783b"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
                     <span>Admin</span>
                 </div>
             </header>
@@ -31,7 +31,7 @@
                 <div class="banner-side">
                     <div class="banner-quote">
                         <span>Jaga kualitas<br>setiap cucian</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#23783b" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
                     </div>
                     <img src="{{ asset('storage/landing/banner.png') }}" alt="Basket" class="banner-img">
                 </div>
@@ -44,8 +44,8 @@
                     <span>Tambah Pesanan</span>
                 </button>
                 <div class="search-box">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" placeholder="Cari nama pelanggan, nomor pesanan..." id="searchInput">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8c8c8e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="15.8" y2="15.8"/></svg>
+                    <input type="text" placeholder="Cari nama Pelanggan" id="searchInput">
                 </div>
             </div>
 
@@ -72,6 +72,7 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="card-footer-bar">
                     <span class="pagination-info">Menampilkan 0 dari 0 pesanan</span>
                     <div class="pagination">
@@ -91,4 +92,3 @@
     <script src="{{ asset('js/pesanan.js') }}"></script>
 </body>
 </html>
-
