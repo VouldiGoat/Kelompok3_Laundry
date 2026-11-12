@@ -8,61 +8,82 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-public function showLogin()
-{
-    if (session()->has('admin_id')) {
-        return redirect('/dashboard');
+    // Menampilkan halaman login
+    public function showLogin()
+    {
+        // Jika sudah login, langsung ke dashboard
+        if (session()->has('admin_id')) {
+            return redirect()->route('dashboard');
+        }
+
+        // Menampilkan halaman login
+        $response = response()->view('login');
+
+        // Mencegah halaman login tersimpan di cache
+        $response->headers->set(
+            'Cache-Control',
+            'no-cache, no-store, must-revalidate'
+        );
+
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+
+        return $response;
     }
 
-    $response = response()->view('login');
 
-    $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    $response->header('Pragma', 'no-cache');
-    $response->header('Expires', '0');
-
-    return $response;
-}
-
-    // Memproses login
+    // Memproses login admin
     public function login(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+        // Validasi username dan password
+        $validated = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        // Cari admin berdasarkan username
-        $admin = Admin::where('username', $request->username)->first();
+        // Mencari admin berdasarkan username
+        $admin = Admin::where(
+            'username',
+            $validated['username']
+        )->first();
 
-        // Cek admin dan password
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
+        // Memeriksa akun dan password
+        if (
+            !$admin ||
+            !Hash::check($validated['password'], $admin->password)
+        ) {
             return back()
                 ->withErrors([
                     'username' => 'Username atau password salah.',
                 ])
-                ->withInput();
+                ->withInput($request->only('username'));
         }
 
-        // Simpan data admin ke session
-        session([
+        // Mengganti ID session setelah login berhasil
+        $request->session()->regenerate();
+
+        // Menyimpan identitas admin ke session
+        $request->session()->put([
             'admin_id' => $admin->admin_id,
             'admin_username' => $admin->username,
         ]);
 
-        // Arahkan ke dashboard
-        return redirect('/dashboard');
+        // Menuju halaman yang diminta sebelumnya,
+        // atau dashboard jika tidak ada URL tujuan
+        return redirect()->intended(route('dashboard'));
     }
 
-    // Logout
-    public function logout(Request $request){
-        $request->session()->forget([
-            'admin_id',
-            'admin_username',
-        ]);
 
-        $request->session()->regenerate();
+    // Memproses logout admin
+    public function logout(Request $request)
+    {
+        // Menghapus seluruh session
+        $request->session()->invalidate();
 
-        return redirect('/login');
+        // Membuat token CSRF baru
+        $request->session()->regenerateToken();
+
+        // Kembali ke halaman login
+        return redirect()->route('login');
     }
 }

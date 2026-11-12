@@ -1,41 +1,79 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\LayananController;
 
-// Landing Page
+
+// ======================================
+// LANDING PAGE
+// ======================================
+
+// Halaman utama tetap bisa diakses publik
 Route::get('/', function () {
     return view('landing.home');
 })->name('home');
 
-// Login
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
+// ======================================
+// LOGIN
+// ======================================
+
+// Menampilkan halaman login
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
+
+// Memproses login
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.process');
 
-// Logout
+// Memproses logout
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');;
 
-// Pesanan
-Route::get('/pesanan', [PesananController::class, 'index'])
-    ->name('pesanan');
+// ======================================
+// SEMUA SECTION ADMIN
+// WAJIB LOGIN
+// ======================================
 
-// Layanan
-Route::get('/layanan', [LayananController::class, 'index'])
-    ->name('layanan');
+Route::prefix('login')
+    ->middleware('admin')
+    ->group(function () {
 
-// Detail Pesanan
-Route::get('/detail-pesanan', [PesananController::class, 'show'])
-    ->name('detail_pesanan');
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+
+        // Pesanan
+        Route::get('/pesanan', [PesananController::class, 'index'])
+            ->name('pesanan');
+
+        // Layanan
+        Route::get('/layanan', [LayananController::class, 'index'])
+            ->name('layanan');
+
+        // Detail Pesanan
+        Route::view('/detail-pesanan', 'detail_pesanan')
+            ->name('detail_pesanan');
+
+    });
+
+
+// ======================================
+// PENGALIHAN URL LAMA
+// ======================================
+
+// Jika seseorang masih membuka URL lama,
+// arahkan ke URL admin yang baru.
+
+Route::redirect('/dashboard', '/login/dashboard');
+
+Route::redirect('/pesanan', '/login/pesanan');
+
+Route::redirect('/layanan', '/login/layanan');
+
+Route::redirect('/detail-pesanan', '/login/detail-pesanan');

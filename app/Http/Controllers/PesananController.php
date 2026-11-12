@@ -8,10 +8,6 @@ class PesananController extends Controller
 {
     public function index()
     {
-        // Cek apakah admin sudah login
-        if (!session()->has('admin_id')) {
-            return redirect()->route('login');
-        }
 
         // Mengambil semua data pesanan
         $orders = DB::table('orders')
