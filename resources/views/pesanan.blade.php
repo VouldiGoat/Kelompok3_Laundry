@@ -98,7 +98,10 @@
                                     </td>
 
                                     {{-- Aksi --}}
-                                    <td>-</td>
+                                    <td>
+                                        <button class="btn-edit">Edit</button>
+                                        <button class="btn-del">Hapus</button>
+                                    </td>
                                 </tr>
 
                             @empty
