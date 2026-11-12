@@ -100,7 +100,14 @@
                                     {{-- Aksi --}}
                                     <td>
                                         <button class="btn-edit">Edit</button>
-                                        <button class="btn-del">Hapus</button>
+                                        <form class="table-action-form" action="{{ route('pesanan.destroy', $order->orders_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini? Pembayaran terkait juga akan terhapus.');">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn-delete">
+                                                Hapus
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
 

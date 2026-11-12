@@ -87,7 +87,14 @@
                                     <td>
                                         {{-- Tombol aksi bisa ditambahkan di sini --}}
                                         <button class="btn-edit">Edit</button>
-                                        <button class="btn-delete">Hapus</button>
+                                        <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn-delete">
+                                            Hapus
+                                        </button>
+                                    </form>
                                     </td>
                                 </tr>
                             @empty

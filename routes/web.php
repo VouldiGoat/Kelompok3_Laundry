@@ -77,3 +77,13 @@ Route::redirect('/pesanan', '/login/pesanan');
 Route::redirect('/layanan', '/login/layanan');
 
 Route::redirect('/detail-pesanan', '/login/detail-pesanan');
+
+// Tombol Hpus
+
+// Hapus Layanan
+Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])
+    ->name('layanan.destroy');
+
+// Hapus Pesanan
+Route::delete('/pesanan/{id}', [PesananController::class, 'destroy'])
+    ->name('pesanan.destroy');
