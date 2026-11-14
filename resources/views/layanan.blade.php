@@ -18,7 +18,7 @@
             <header class="topbar">
                 <div class="user-pill">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="#23783b"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
-                    <span>Admin</span>
+                    <span>{{ session('admin_username', 'Admin') }}</span>
                 </div>
             </header>
 
@@ -59,22 +59,58 @@
                                 <th>Nama Layanan</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
-                                <th>Estimasi</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="7" class="empty-state">Belum ada data layanan.</td>
-                            </tr>
+                            @forelse ($layanans as $layanan)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>{{ $layanan->services_name }}</td>
+
+                                    <td>
+                                        Rp {{ number_format($layanan->price, 0, ',', '.') }}
+                                    </td>
+
+                                    <td>{{ $layanan->description ?? '-' }}</td>
+
+                                    <td>
+                                        @if ($layanan->is_active)
+                                            <span class="status-active">Aktif</span>
+                                        @else
+                                            <span class="status-inactive">Nonaktif</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        {{-- Tombol aksi bisa ditambahkan di sini --}}
+                                        <button class="btn-edit">Edit</button>
+                                        <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn-delete">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="empty-state">
+                                        Belum ada data layanan.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 0 dari 0 layanan</span>
+                    <span class="pagination-info">Menampilkan {{ $layanans->count() }} dari {{ $layanans->count() }} layanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>

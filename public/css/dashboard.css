@@ -585,3 +585,15 @@ tr:last-child td {
     }
 }
 
+
+/* Dashboard dynamic popular services list */
+.popular-list {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.popular-item {
+    width: 100%;
+}

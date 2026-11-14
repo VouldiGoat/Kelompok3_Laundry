@@ -531,3 +531,14 @@ tbody tr:hover {
     }
 }
 
+/* Status Badge — Nonaktif */
+.badge-nonaktif {
+    display: inline-block;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 4px 16px;
+    white-space: nowrap;
+}

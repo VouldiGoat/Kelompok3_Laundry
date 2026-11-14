@@ -18,7 +18,7 @@
             <header class="topbar">
                 <div class="user-pill">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="#23783b"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
-                    <span>Admin</span>
+                    <span>{{ session('admin_username', 'Admin') }}</span>
                 </div>
             </header>
 
@@ -103,9 +103,13 @@
                                             <a href="{{ route('pesanan.edit') }}" class="act-btn btn-edit" title="Edit">
                                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                                             </a>
-                                            <button type="button" class="act-btn btn-del" title="Hapus">
-                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                            </button>
+                                            <form action="{{ route('pesanan.destroy', $order->orders_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini? Pembayaran terkait juga akan terhapus.');" style="display:inline; margin:0; padding:0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="act-btn btn-del" title="Hapus">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                </button>
+                                            </form>
                                             <a href="{{ route('pesanan.detail') }}" class="act-btn btn-view" title="Detail">
                                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                                             </a>

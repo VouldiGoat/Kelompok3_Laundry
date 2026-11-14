@@ -18,7 +18,7 @@
             <header class="topbar">
                 <div class="user-pill">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="#23783b"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3a3 3 0 1 1-3 3 3 3 0 0 1 3-3zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/></svg>
-                    <span>Admin</span>
+                    <span>{{ session('admin_username', 'Admin') }}</span>
                 </div>
             </header>
 

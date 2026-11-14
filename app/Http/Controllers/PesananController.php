@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 
 class PesananController extends Controller
 {
     public function index()
     {
-        // Cek apakah admin sudah login
-        if (!session()->has('admin_id')) {
-            return redirect()->route('login');
-        }
 
         // Mengambil semua data pesanan
         $orders = DB::table('orders')
@@ -31,4 +29,33 @@ class PesananController extends Controller
         // Mengirim data pesanan ke halaman Blade
         return view('pesanan', compact('orders'));
     }
+
+    
+        
+        // Menghapus pesanan
+        public function destroy($id)
+        {
+            // Memulai transaksi database
+            DB::transaction(function () use ($id) {
+
+                // Mencari pesanan berdasarkan ID
+                $order = Order::findOrFail($id);
+
+                // Menghapus pembayaran yang terhubung
+                Payment::where('order_id', $order->orders_id)
+                    ->delete();
+
+                // Menghapus pesanan
+                $order->delete();
+
+            });
+
+            // Kembali ke halaman pesanan
+            return redirect()
+                ->route('pesanan')
+                ->with('success', 'Pesanan berhasil dihapus!');
+        }
+
+
+
 }
