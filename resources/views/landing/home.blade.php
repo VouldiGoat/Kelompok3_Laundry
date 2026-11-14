@@ -48,7 +48,6 @@
             {{-- Action Buttons --}}
             <div class="navbar-actions">
                 <a href="{{ route('pesan') }}" class="navbar-cta">Pesan Sekarang</a>
-                <a href="{{ route('login') }}" class="navbar-admin">Admin Login</a>
             </div>
 
             {{-- Mobile Toggle --}}
@@ -78,7 +77,7 @@
             </div>
 
             <div class="hero-image" data-animate="fade-left" data-delay="200" data-parallax data-speed="1.05">
-                <img src="{{ asset('storage/landing/banner.png') }}" alt="Laundry Azzam Basket">
+                <img src="{{ asset('images/banner.png') }}" alt="Laundry Azzam Basket">
             </div>
 
         </div>

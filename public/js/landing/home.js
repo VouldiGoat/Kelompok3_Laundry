@@ -99,29 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // ==========================================
-    // 5. ACTIVE NAV LINK ON SCROLL
+    // 5. ACTIVE NAV LINK ON SCROLL (DISABLED)
+    // "jangan pindahkan dari pilihan beranda karna halaman lain nya belum ada"
     // ==========================================
-    var sections = document.querySelectorAll('section[id]');
-    var navLinks = document.querySelectorAll('.nav-link');
-
-    lenis.on('scroll', function (e) {
-        var scrollPos = e.scroll + 200;
-
-        sections.forEach(function (section) {
-            var sectionTop = section.offsetTop;
-            var sectionHeight = section.offsetHeight;
-            var sectionId = section.getAttribute('id');
-
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                navLinks.forEach(function (link) {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + sectionId) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    });
+    // Beranda tetap aktif secara permanen.
 
 
     // ==========================================
