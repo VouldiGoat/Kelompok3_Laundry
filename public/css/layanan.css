@@ -218,6 +218,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-decoration: none;
     transition: background 0.2s, transform 0.2s;
 }
 
@@ -373,27 +374,28 @@ tbody tr:hover {
     white-space: nowrap;
 }
 
-/* Action Buttons — Edit & Hapus pill style */
+/* Action Buttons — Pill style: Edit (kuning) & Hapus (pink) */
 .actions {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .btn-edit {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 14px;
-    border-radius: 20px;
+    padding: 6px 18px;
+    border-radius: 50px;
     border: none;
     cursor: pointer;
     font-family: inherit;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 600;
     background: #fef3c7;
-    color: #b45309;
+    color: #854d0e;
+    text-decoration: none;
     transition: background 0.2s, transform 0.15s;
 }
 
@@ -406,15 +408,16 @@ tbody tr:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 14px;
-    border-radius: 20px;
+    padding: 6px 18px;
+    border-radius: 50px;
     border: none;
     cursor: pointer;
     font-family: inherit;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 600;
     background: #fee2e2;
-    color: #ef4444;
+    color: #b91c1c;
+    text-decoration: none;
     transition: background 0.2s, transform 0.15s;
 }
 

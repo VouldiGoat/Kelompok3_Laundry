@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
             navMenu.classList.toggle('open');
         });
 
-        navMenu.querySelectorAll('.nav-link').forEach(function (link) {
+        navMenu.querySelectorAll('.nav-link, .mobile-menu-actions a').forEach(function (link) {
             link.addEventListener('click', function () {
                 navToggle.classList.remove('active');
                 navMenu.classList.remove('open');

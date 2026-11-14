@@ -1,0 +1,352 @@
+/* ===================================================
+   LAUNDRY AZZAM - FORM PEMESANAN CSS
+   Matches reference image 100%
+   =================================================== */
+
+/* ===================================================
+   PESAN SEKARANG NAVBAR
+   Matches media_1794585390628_d200de47.png 100%
+   =================================================== */
+.pesan-navbar {
+    background: #ffffff;
+    border-bottom: 1px solid #f0f3f1;
+    box-shadow: none;
+}
+
+.pesan-brand-logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1.1;
+}
+
+.pesan-logo-title {
+    color: #23783b;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.pesan-logo-since {
+    color: #d97706;
+    font-size: 10.5px;
+    font-weight: 700;
+    margin-top: 1px;
+}
+
+.pesan-navbar .nav-link {
+    color: #374151;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.pesan-navbar .nav-link:hover {
+    color: #23783b;
+}
+
+.pesan-navbar-btn {
+    background: #23783b;
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.pesan-navbar-btn:hover {
+    background: #1b5e20;
+    transform: translateY(-1px);
+}
+
+.order-page {
+    padding-top: 110px;
+    padding-bottom: 70px;
+    background: #ffffff;
+    min-height: calc(100vh - 350px);
+}
+
+.order-container {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.order-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.order-badge {
+    display: inline-block;
+    color: #3F9A4B;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.order-title {
+    color: #23783b;
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+}
+
+.order-subtitle {
+    color: #555555;
+    font-size: 14.5px;
+    font-weight: 400;
+}
+
+/* Card */
+.order-card {
+    background: #e2f2e5;
+    border-radius: 20px;
+    padding: 36px 40px;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 36px;
+    row-gap: 20px;
+}
+
+.order-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-group label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #23783b;
+}
+
+.order-group input {
+    width: 100%;
+    height: 48px;
+    background: #ffffff;
+    border: 1px solid #cce5d2;
+    border-radius: 10px;
+    padding: 0 16px;
+    font-size: 14px;
+    color: #374151;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.order-group input:focus {
+    border-color: #3F9A4B;
+    box-shadow: 0 0 0 3px rgba(63, 154, 75, 0.15);
+}
+
+.order-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-order-submit {
+    background: #2e7d32;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-order-submit:hover {
+    background: #23783b;
+    transform: translateY(-1px);
+}
+
+.btn-order-cancel {
+    background: #fddbc6;
+    color: #832e0c;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-order-cancel:hover {
+    background: #fbc4a2;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .order-grid {
+        grid-template-columns: 1fr;
+    }
+    .order-card {
+        padding: 24px 20px;
+    }
+    .order-title {
+        font-size: 28px;
+    }
+}
+
+/* ===================================================
+   FOOTER PESAN SEKARANG
+   Matches media_1794584968719_997b39dc.png 100%
+   =================================================== */
+.footer-pesan {
+    background: #206b33;
+    color: #ffffff;
+    padding: 38px 0 46px;
+    margin-top: 0;
+}
+
+.footer-pesan-container {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.3fr 0.9fr;
+    gap: 36px;
+    align-items: start;
+}
+
+.footer-pesan-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Col 1: Brand */
+.footer-pesan-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 1px 0;
+    letter-spacing: -0.2px;
+}
+
+.footer-pesan-since {
+    color: #f59e0b;
+    font-size: 11.5px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: inline-block;
+}
+
+.footer-pesan-brand p {
+    color: #ffffff;
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Col 2: Navigation Links (1 single column) */
+.footer-pesan-nav {
+    gap: 6px;
+}
+
+.footer-pesan-nav a {
+    color: #ffffff;
+    font-size: 12.5px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer-pesan-nav a:hover {
+    opacity: 0.8;
+    transform: translateX(2px);
+}
+
+/* Col 3: Contact & Admin */
+.footer-pesan-contact p {
+    color: #ffffff;
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin: 0 0 4px 0;
+}
+
+.footer-pesan-admin {
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 22px;
+    display: inline-block;
+    transition: opacity 0.2s ease;
+}
+
+.footer-pesan-admin:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Col 4: Social */
+.footer-pesan-social span {
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.pesan-social-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pesan-social-icons a {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #206b33;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.pesan-social-icons a:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+    .footer-pesan-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-pesan-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
