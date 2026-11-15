@@ -1,0 +1,702 @@
+/* ===================================================
+   LAUNDRY AZZAM - PEMBAYARAN CSS
+   Matches the design mockup 100%
+   =================================================== */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    color: #233328;
+    line-height: 1.5;
+}
+
+/* Layout */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #ffffff;
+    border-right: 1px solid #edf2ee;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.sidebar-logo {
+    padding: 0 8px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-logo img {
+    height: 110px;
+    width: auto;
+    object-fit: contain;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+    background: #eef6f0;
+    color: #23783b;
+}
+
+.sidebar-nav a.active {
+    background: #d8f0dc;
+    color: #23783b;
+    font-weight: 700;
+    border-radius: 12px 0 0 12px;
+    margin-right: -16px;
+    padding-right: 32px;
+}
+
+.sidebar-nav a.active svg {
+    stroke: #23783b;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 16px;
+    border: none;
+    background: none;
+    width: 100%;
+    cursor: pointer;
+    color: #23783b;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    font-family: inherit;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Main Content */
+.main {
+    margin-left: 220px;
+    flex: 1;
+    padding: 18px 32px 40px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 2px 0 0;
+}
+
+.user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #23783b;
+}
+
+/* Welcome Banner */
+.banner {
+    background: #f5f6f5;
+    padding: 20px 32px;
+    margin-left: -32px;
+    margin-right: -32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.banner-info h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #23783b;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+}
+
+.banner-info p {
+    font-size: 13.5px;
+    color: #6b7280;
+    max-width: 540px;
+}
+
+.banner-side {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.banner-quote {
+    font-family: 'Dancing Script', cursive;
+    font-size: 21px;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.25;
+    transform: rotate(-2deg);
+}
+
+.banner-img {
+    height: 95px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06));
+}
+
+/* Action Bar */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin: 4px 0;
+}
+
+/* Button Tambah Metode */
+.btn-add-metode {
+    height: 51px;
+    padding: 0 32px;
+    background: #3F9A4B;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-add-metode:hover {
+    background: #34843f;
+    transform: translateY(-1px);
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 2px solid #c9cbcf;
+    border-radius: 12px;
+    padding: 0 18px;
+    width: 370px;
+    height: 51px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-box:focus-within {
+    border-color: #3F9A4B;
+    box-shadow: 0 0 0 3px rgba(63, 154, 75, 0.15);
+}
+
+.search-box svg {
+    flex-shrink: 0;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1f2937;
+    width: 100%;
+}
+
+.search-box input::placeholder {
+    color: #8c8c8e;
+}
+
+/* ===================================================
+   METODE PEMBAYARAN SECTION
+   =================================================== */
+.metode-section {
+    background: #e2f1e6;
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.metode-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #23783b;
+    margin: 0;
+}
+
+.metode-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.metode-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    min-height: 145px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metode-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.metode-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Brand badges with distinctive corner bracket borders */
+.brand-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+    min-height: 36px;
+}
+
+.brand-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 3px solid #000000;
+    border-left: 3px solid #000000;
+}
+
+.brand-badge::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-bottom: 3px solid #000000;
+    border-right: 3px solid #000000;
+}
+
+.brand-qris {
+    font-family: 'Poppins', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #000000;
+    line-height: 1;
+}
+
+.brand-bca {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.5px;
+    color: #000000;
+    line-height: 1;
+}
+
+.brand-ewallet {
+    font-family: 'Poppins', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    font-style: italic;
+    color: #000000;
+    line-height: 1;
+}
+
+.brand-tunai {
+    font-family: 'Poppins', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    font-style: italic;
+    color: #000000;
+    line-height: 1;
+}
+
+.metode-info {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.metode-name {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+}
+
+.metode-desc {
+    font-size: 9.5px;
+    color: #6b7280;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+/* Method card footer controls */
+.metode-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+    width: 100%;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.25s ease;
+    padding: 0;
+    outline: none;
+}
+
+.toggle-switch.on {
+    background-color: #3F9A4B;
+}
+
+.toggle-switch.off {
+    background-color: #cbd5e1;
+}
+
+.toggle-knob {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.25s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-switch.on .toggle-knob {
+    transform: translateX(20px);
+}
+
+.toggle-switch.off .toggle-knob {
+    transform: translateX(0);
+}
+
+/* Mini action buttons */
+.btn-m-edit,
+.btn-m-del {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-m-edit {
+    background: #3F9A4B;
+    color: #ffffff;
+}
+
+.btn-m-del {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.btn-m-edit:hover,
+.btn-m-del:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* ===================================================
+   TABEL SECTION
+   =================================================== */
+.table-card {
+    background: #e2f1e6;
+    border-radius: 16px;
+    border: 1px solid #d4ebd8;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: center;
+    background: #ffffff;
+}
+
+thead th {
+    background: #f7faf7;
+    color: #374151;
+    font-weight: 600;
+    padding: 13px 12px;
+    border: 1px solid #e5e7eb;
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    background: #ffffff;
+    vertical-align: middle;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 48px 16px !important;
+    text-align: center;
+    background: #ffffff !important;
+}
+
+.empty-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #9ca3af;
+}
+
+.empty-box svg {
+    stroke: #9ca3af;
+}
+
+.empty-box p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+/* Badges for status */
+.badge-status {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-diproses {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.badge-selesai {
+    background: #3F9A4B;
+    color: #ffffff;
+}
+
+/* Row Actions */
+.table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.act-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, opacity 0.15s;
+    text-decoration: none;
+}
+
+.act-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+.act-edit {
+    background: #3F9A4B;
+    color: #ffffff;
+}
+
+.act-del {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.act-view {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+/* Card Footer Bar */
+.card-footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: #eaf6ec;
+    border-top: 1px solid #d5ebd8;
+}
+
+.pagination-info {
+    font-size: 12.5px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #4b5563;
+}
+
+.page-btn.active {
+    background: #3F9A4B;
+    border-color: #3F9A4B;
+    color: #ffffff;
+}
+
+.page-btn:disabled {
+    background: #eef2ef;
+    border-color: #eef2ef;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .metode-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main {
+        margin-left: 0;
+        padding: 16px;
+    }
+    .sidebar {
+        display: none;
+    }
+    .metode-grid {
+        grid-template-columns: 1fr;
+    }
+    .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box {
+        width: 100%;
+    }
+}

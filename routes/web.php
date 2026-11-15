@@ -65,6 +65,10 @@ Route::prefix('login')
         Route::view('/detail-pesanan', 'detail_pesanan')
             ->name('detail_pesanan');
 
+        // Pembayaran
+        Route::view('/pembayaran', 'pembayaran')
+            ->name('pembayaran.admin');
+
     });
 
 
@@ -82,6 +86,15 @@ Route::redirect('/pesanan', '/login/pesanan');
 Route::redirect('/layanan', '/login/layanan');
 
 Route::redirect('/detail-pesanan', '/login/detail-pesanan');
+
+
+// ======================================
+// PEMBAYARAN
+// ======================================
+
+Route::get('/pembayaran', function () {
+    return view('pembayaran');
+})->name('pembayaran');
 
 
 // ======================================
