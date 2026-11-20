@@ -70,62 +70,257 @@
                 <p class="order-subtitle">Isi data berikut, kami akan segera memproses cucian Anda.</p>
             </div>
 
-            {{-- Form Card --}}
+                        {{-- Form Card --}}
+
+            {{-- ==================== FORM CARD ==================== --}}
+
             <div class="order-card">
-                <form action="{{ route('home') }}" method="GET">
+
+                {{-- Pesan berhasil --}}
+                @if (session('success'))
+                    <div class="form-alert form-alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                {{-- Pesan validasi --}}
+                @if ($errors->any())
+                    <div class="form-alert form-alert-error">
+                        <strong>Mohon periksa kembali data pesanan Anda.</strong>
+
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+
+                <form action="{{ route('pesan.store') }}" method="POST">
+
+                    @csrf
+
                     <div class="order-grid">
-                        {{-- Row 1 --}}
-                        <div class="order-group">
-                            <label for="nama_lengkap">Nama Lengkap</label>
-                            <input type="text" id="nama_lengkap" name="nama_lengkap">
-                        </div>
+
+                        {{-- ROW 1: NAMA DAN LAYANAN --}}
 
                         <div class="order-group">
-                            <label for="no_hp">No. HP</label>
-                            <input type="text" id="no_hp" name="no_hp">
+                            <label for="nama_pemesan">Nama Lengkap</label>
+
+                            <input
+                                type="text"
+                                id="nama_pemesan"
+                                name="nama_pemesan"
+                                value="{{ old('nama_pemesan') }}"
+                                placeholder="Masukkan nama lengkap"
+                                maxlength="100"
+                                required
+                            >
+
+                            @error('nama_pemesan')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
 
-                        {{-- Row 2 --}}
-                        <div class="order-group">
-                            <label for="layanan">Layanan</label>
-                            <input type="text" id="layanan" name="layanan">
-                        </div>
 
                         <div class="order-group">
-                            <label for="jenis">Jenis</label>
-                            <input type="text" id="jenis" name="jenis">
+                            <label for="services_id">Layanan</label>
+
+                            <select
+                                id="services_id"
+                                name="services_id"
+                                required
+                            >
+                                <option value="">-- Pilih Layanan --</option>
+
+                                @forelse ($services as $service)
+                                    <option
+                                        value="{{ $service->services_id }}"
+                                        data-price="{{ $service->price }}"
+                                        @selected(old('services_id') == $service->services_id)
+                                    >
+                                        {{ $service->services_name }}
+                                        - Rp {{ number_format($service->price, 0, ',', '.') }}/Kg
+                                    </option>
+                                @empty
+                                    <option value="" disabled>
+                                        Belum ada layanan tersedia
+                                    </option>
+                                @endforelse
+
+                            </select>
+
+                            @error('services_id')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
 
-                        {{-- Row 3 --}}
-                        <div class="order-group">
-                            <label for="berat_jumlah">Berat / Jumlah</label>
-                            <input type="text" id="berat_jumlah" name="berat_jumlah">
-                        </div>
+
+                        {{-- ROW 2: BERAT DAN TANGGAL JEMPUT --}}
 
                         <div class="order-group">
-                            <label for="tanggal_jemput">Tanggal Jemput</label>
-                            <input type="text" id="tanggal_jemput" name="tanggal_jemput">
+                            <label for="jumlah">Berat / Jumlah (Kg)</label>
+
+                            <input
+                                type="number"
+                                id="jumlah"
+                                name="jumlah"
+                                value="{{ old('jumlah') }}"
+                                placeholder="Contoh: 3"
+                                min="0.01"
+                                max="999999"
+                                step="0.01"
+                                required
+                            >
+
+                            @error('jumlah')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
 
-                        {{-- Row 4 --}}
-                        <div class="order-group">
-                            <label for="alamat_jemput">Alamat Jemput</label>
-                            <input type="text" id="alamat_jemput" name="alamat_jemput">
-                        </div>
 
                         <div class="order-group">
-                            <label for="catatan">Catatan</label>
-                            <input type="text" id="catatan" name="catatan">
+                            <label for="pickup_date">Tanggal Jemput</label>
+
+                            <input
+                                type="date"
+                                id="pickup_date"
+                                name="pickup_date"
+                                value="{{ old('pickup_date') }}"
+                                min="{{ now()->format('Y-m-d') }}"
+                                required
+                            >
+
+                            @error('pickup_date')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
+
+
+                        {{-- ROW 3: JAM JEMPUT DAN TANGGAL ANTAR --}}
+
+                        <div class="order-group">
+                            <label for="pickup_time">Jam Jemput</label>
+
+                            <input
+                                type="time"
+                                id="pickup_time"
+                                name="pickup_time"
+                                value="{{ old('pickup_time') }}"
+                                required
+                            >
+
+                            @error('pickup_time')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+
+                        <div class="order-group">
+                            <label for="delivery_date">Tanggal Antar (Opsional)</label>
+
+                            <input
+                                type="date"
+                                id="delivery_date"
+                                name="delivery_date"
+                                value="{{ old('delivery_date') }}"
+                                min="{{ old('pickup_date', now()->format('Y-m-d')) }}"
+                            >
+
+                            @error('delivery_date')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+
+                        {{-- ROW 4: ALAMAT DAN CATATAN --}}
+
+                        <div class="order-group">
+                            <label for="addresses">Alamat Jemput</label>
+
+                            <input
+                                type="text"
+                                id="addresses"
+                                name="addresses"
+                                value="{{ old('addresses') }}"
+                                placeholder="Masukkan alamat lengkap"
+                                maxlength="150"
+                                required
+                            >
+
+                            @error('addresses')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+
+                        <div class="order-group">
+                            <label for="notes">Catatan</label>
+
+                            <textarea
+                                id="notes"
+                                name="notes"
+                                rows="3"
+                                placeholder="Catatan tambahan untuk pesanan"
+                            >{{ old('notes') }}</textarea>
+
+                            @error('notes')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                     </div>
 
-                    {{-- Action Buttons --}}
+
+                    {{-- RINCIAN HARGA OTOMATIS --}}
+
+                    <div class="order-price-summary">
+
+                        <h3>Rincian Pembayaran</h3>
+
+                        <div class="price-row">
+                            <span>Subtotal</span>
+                            <strong id="subtotalPreview">Rp 0</strong>
+                        </div>
+
+                        <div class="price-row">
+                            <span>Biaya Antar</span>
+                            <strong>Rp 0</strong>
+                        </div>
+
+                        <div class="price-row price-total">
+                            <span>Total Pembayaran</span>
+                            <strong id="totalPreview">Rp 0</strong>
+                        </div>
+
+                    </div>
+
+
+                    {{-- ACTION BUTTONS --}}
+
                     <div class="order-actions">
-                        <a href="{{ route('home') }}" class="btn-order-submit">Kirim Pesanan</a>
-                        <a href="{{ route('home') }}" class="btn-order-cancel">Batal</a>
+
+                        <button
+                            type="submit"
+                            class="btn-order-submit"
+                        >
+                            Kirim Pesanan
+                        </button>
+
+                        <a
+                            href="{{ route('home') }}"
+                            class="btn-order-cancel"
+                        >
+                            Batal
+                        </a>
+
                     </div>
+
                 </form>
+
             </div>
+
 
         </div>
     </main>
@@ -199,6 +394,71 @@
                 navMenu.classList.toggle('open');
             });
         }
+            // Mengambil elemen pilihan layanan dan jumlah cucian
+    const serviceSelect = document.getElementById('services_id');
+    const jumlahInput = document.getElementById('jumlah');
+
+    // Elemen untuk menampilkan harga
+    const subtotalPreview = document.getElementById('subtotalPreview');
+    const totalPreview = document.getElementById('totalPreview');
+
+    // Biaya antar sementara Rp0
+    const deliveryFee = 0;
+
+    // Mengubah angka menjadi format Rupiah
+    function formatRupiah(angka) {
+        return 'Rp ' + Math.round(angka).toLocaleString('id-ID');
+    }
+
+    // Menghitung harga pesanan
+    function calculatePrice() {
+
+        // Mendapatkan pilihan layanan pelanggan
+        const selectedOption =
+            serviceSelect.options[serviceSelect.selectedIndex];
+
+        // Mengambil harga dari pilihan layanan
+        const price = Number(
+            selectedOption?.dataset.price || 0
+        );
+
+        // Mengambil jumlah cucian
+        const jumlah = Number(jumlahInput.value || 0);
+
+        // Menghitung subtotal dan total
+        const subtotal = price * jumlah;
+        const total = subtotal + deliveryFee;
+
+        // Memperbarui tampilan harga
+        subtotalPreview.textContent = formatRupiah(subtotal);
+        totalPreview.textContent = formatRupiah(total);
+    }
+
+    // Hitung ulang jika layanan berubah
+    serviceSelect.addEventListener('change', calculatePrice);
+
+    // Hitung ulang jika jumlah berubah
+    jumlahInput.addEventListener('input', calculatePrice);
+
+    // Hitung harga saat halaman pertama dibuka
+    calculatePrice();
+
+
+    // Menyesuaikan tanggal antar dengan tanggal jemput
+    const pickupDate = document.getElementById('pickup_date');
+    const deliveryDate = document.getElementById('delivery_date');
+
+    pickupDate.addEventListener('change', function () {
+
+        deliveryDate.min = this.value;
+
+        if (
+            deliveryDate.value &&
+            deliveryDate.value < this.value
+        ) {
+            deliveryDate.value = '';
+        }
+    });
     </script>
 </body>
 

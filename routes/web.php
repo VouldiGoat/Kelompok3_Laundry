@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\PemesananController;
 
 
 // ======================================
@@ -17,10 +18,17 @@ Route::get('/', function () {
     return view('landing.home');
 })->name('home');
 
-// Pesan Sekarang (Landing Page Form Pemesanan)
-Route::get('/pesan', function () {
-    return view('landing.pesan');
-})->name('pesan');
+// ======================================
+// FORM PEMESANAN (DARI LANDING PAGE)
+// ======================================
+
+// Form pemesanan pelanggan
+Route::get('/pesan', [PemesananController::class, 'create'])
+    ->name('pesan');
+
+// Mengirim pesanan pelanggan
+Route::post('/pesan', [PemesananController::class, 'store'])
+    ->name('pesan.store');
 
 
 // ======================================
@@ -138,3 +146,5 @@ Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])
 // Hapus Pesanan
 Route::delete('/pesanan/{id}', [PesananController::class, 'destroy'])
     ->name('pesanan.destroy');
+
+
