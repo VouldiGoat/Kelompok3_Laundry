@@ -1,0 +1,336 @@
+/* ===================================================
+   LAUNDRY AZZAM - TENTANG KAMI CSS
+   Matches the design mockup 100%
+   =================================================== */
+
+/* Ensure all content is immediately visible without blank screens */
+[data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+}
+
+/* Footer Fix */
+.footer-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+}
+
+.footer-logo img {
+    height: 48px !important;
+    max-height: 50px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.footer-brand .footer-tagline {
+    font-size: 12px !important;
+    color: #ffffff !important;
+    line-height: 1.45 !important;
+    max-width: 210px !important;
+    margin: 0 !important;
+}
+
+/* Section 1: Cerita & Komitmen Kami */
+.about-card-section {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+}
+
+.about-card-wrapper {
+    background: #f8faf8;
+    border-radius: 20px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.about-store-img-box {
+    flex-shrink: 0;
+    width: 290px;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.about-store-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.about-story-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.about-badge {
+    align-self: flex-start;
+    background: #ebf9e9;
+    color: #3f9a4b;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+.about-story-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #23783b;
+    margin: 2px 0 4px;
+}
+
+.about-story-desc {
+    font-size: 11.5px;
+    color: #4b5563;
+    line-height: 1.6;
+    max-width: 490px;
+}
+
+.about-features-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.about-feat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feat-circle-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e8f5ec;
+    color: #23783b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.feat-labels h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.feat-labels p {
+    font-size: 9px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.about-quote-box {
+    flex-shrink: 0;
+    width: 180px;
+    text-align: center;
+}
+
+.about-quote-box .quote-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 18px;
+    color: #374151;
+    line-height: 1.35;
+    transform: rotate(-3deg);
+    display: block;
+}
+
+.about-quote-box .quote-heart {
+    display: block;
+    margin-top: 6px;
+    color: #374151;
+    font-size: 16px;
+}
+
+/* ===================================================
+   Section 2: Visi & Misi Kami
+   =================================================== */
+.visi-misi-section {
+    max-width: 1200px;
+    margin: 0 auto 36px;
+    padding: 0 24px;
+}
+
+.visi-misi-wrapper {
+    background: #f8faf8;
+    border-radius: 20px;
+    padding: 32px 36px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.visi-misi-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #23783b;
+    margin-bottom: 20px;
+}
+
+.visi-misi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.vm-box {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.vm-box h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #23783b;
+    margin-bottom: 12px;
+}
+
+.vm-box p {
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.65;
+    margin-bottom: 8px;
+    text-align: justify;
+}
+
+.vm-box p:last-child {
+    margin-bottom: 0;
+}
+
+.vm-box p strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+/* ===================================================
+   Section 3: Keunggulan Proses Kami
+   =================================================== */
+.keunggulan-section {
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    padding: 0 24px;
+    text-align: center;
+}
+
+.keunggulan-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #23783b;
+    margin-bottom: 8px;
+}
+
+.keunggulan-header p {
+    font-size: 13.5px;
+    color: #4b5563;
+    margin-bottom: 28px;
+}
+
+.keunggulan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.keunggulan-card {
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.keunggulan-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.card-mint {
+    background: #eaf8ee;
+}
+
+.card-peach {
+    background: #fef3ea;
+}
+
+.k-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.k-icon-mint {
+    background: #d5f2dc;
+    color: #23783b;
+}
+
+.k-icon-peach {
+    background: #fedec7;
+    color: #ea580c;
+}
+
+.keunggulan-card h3 {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.keunggulan-card p {
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.45;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .about-card-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .about-story-desc {
+        max-width: 100%;
+    }
+    .about-features-row {
+        justify-content: center;
+    }
+    .about-badge {
+        align-self: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .visi-misi-grid {
+        grid-template-columns: 1fr;
+    }
+    .keunggulan-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-features-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

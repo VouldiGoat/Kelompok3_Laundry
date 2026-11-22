@@ -32,22 +32,22 @@
             {{-- Nav Links --}}
             <nav class="navbar-menu" id="navMenu">
                 <a href="#beranda" class="nav-link active">Beranda</a>
-                <a href="#tentang" class="nav-link">Tentang Kami</a>
+                <a href="{{ route('tentang') }}" class="nav-link">Tentang Kami</a>
                 <a href="#layanan" class="nav-link">Layanan</a>
-                <a href="#daftar-harga" class="nav-link">Daftar Harga</a>
                 <a href="#status-pesanan" class="nav-link">Status Pesanan</a>
                 <a href="#testimoni" class="nav-link">Testimoni</a>
 
                 {{-- Mobile Menu Actions --}}
                 <div class="mobile-menu-actions">
                     <a href="{{ route('pesan') }}" class="mobile-cta">Pesan Sekarang</a>
-                    <a href="{{ route('login') }}" class="mobile-admin">Admin Login</a>
+                    <a href="{{ route('login') }}" class="mobile-admin">Masuk</a>
                 </div>
             </nav>
 
             {{-- Action Buttons --}}
             <div class="navbar-actions">
                 <a href="{{ route('pesan') }}" class="navbar-cta">Pesan Sekarang</a>
+                <a href="{{ route('login') }}" class="navbar-btn-login">Masuk</a>
             </div>
 
             {{-- Mobile Toggle --}}
@@ -258,13 +258,13 @@
     <footer class="footer" data-animate="fade-up">
         <div class="footer-container">
 
-            {{-- Col 1: Brand --}}
-            <div class="footer-col footer-brand" data-animate="fade-up" data-delay="0">
-                <img src="{{ asset('images/logo-laundry.png') }}" alt="Laundry Azzam" class="footer-logo">
-                <p>
-                    Laundry Azzam, solusi laundry<br>
-                    praktis, bersih, dan terpercaya<br>
-                    untuk anda.
+            {{-- Col 1: Brand Info --}}
+            <div class="footer-col footer-brand" data-animate="fade-up">
+                <a href="{{ route('home') }}" class="footer-logo">
+                    <img src="{{ asset('images/logo-laundry.png') }}" alt="Laundry Azzam">
+                </a>
+                <p class="footer-tagline">
+                    Laundry Azzam, solusi laundry praktis, bersih, dan terpercaya untuk anda.
                 </p>
             </div>
 
@@ -272,7 +272,7 @@
             <div class="footer-col footer-nav-group" data-animate="fade-up" data-delay="100">
                 <div class="footer-links">
                     <a href="#beranda">Beranda</a>
-                    <a href="#tentang">Tentang Kami</a>
+                    <a href="{{ route('tentang') }}">Tentang Kami</a>
                     <a href="#layanan">Layanan</a>
                 </div>
                 <div class="footer-links">

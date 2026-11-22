@@ -19,6 +19,15 @@ Route::get('/', function () {
     return view('landing.home');
 })->name('home');
 
+// Halaman Tentang Kami
+Route::get('/tentang-kami', function () {
+    return view('landing.tentang');
+})->name('tentang');
+
+Route::get('/tentang', function () {
+    return view('landing.tentang');
+});
+
 // ======================================
 // FORM PEMESANAN (DARI LANDING PAGE)
 // ======================================

@@ -59,42 +59,65 @@
                                 <th>Nama Layanan</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
+                                <th>Estimasi</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($layanans as $layanan)
+                                @php
+                                    $name = strtolower($layanan->services_name ?? '');
+                                    $unit = '/kg';
+                                    if (str_contains($name, 'bed cover') || str_contains($name, 'selimut') || str_contains($name, 'sprei') || str_contains($name, 'sepatu') || str_contains($name, 'tas') || str_contains($name, 'dry clean') || str_contains($name, 'jas')) {
+                                        $unit = '/pcs';
+                                    } elseif (str_contains($name, 'ambal') || str_contains($name, 'karpet')) {
+                                        $unit = '/m²';
+                                    }
+
+                                    $estimasi = '2 Hari';
+                                    if (str_contains($name, 'express') || str_contains($name, 'kilat')) {
+                                        $estimasi = '6 Jam';
+                                    } elseif (str_contains($name, 'setrika')) {
+                                        $estimasi = '1 Hari';
+                                    } elseif (str_contains($name, 'karpet') || str_contains($name, 'ambal')) {
+                                        $estimasi = '4 Hari';
+                                    } elseif (str_contains($name, 'bed cover') || str_contains($name, 'selimut') || str_contains($name, 'sprei') || str_contains($name, 'boneka') || str_contains($name, 'sepatu') || str_contains($name, 'tas') || str_contains($name, 'dry clean') || str_contains($name, 'jas')) {
+                                        $estimasi = '3 Hari';
+                                    } elseif (isset($layanan->estimasi)) {
+                                        $estimasi = $layanan->estimasi;
+                                    }
+                                @endphp
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="col-no">{{ sprintf('%02d', $loop->iteration) }}</td>
 
-                                    <td>{{ $layanan->services_name }}</td>
+                                    <td class="col-name">{{ $layanan->services_name }}</td>
 
-                                    <td>
-                                        Rp {{ number_format($layanan->price, 0, ',', '.') }}
+                                    <td class="col-price">
+                                        Rp{{ number_format($layanan->price, 0, ',', '.') }}{{ $unit }}
                                     </td>
 
-                                    <td>{{ $layanan->description ?? '-' }}</td>
+                                    <td class="col-desc">"{{ trim($layanan->description ?? '-', "\" \t\n\r\0\x0B") }}"</td>
 
-                                    <td>
+                                    <td class="col-estimate">{{ $estimasi }}</td>
+
+                                    <td class="col-status">
                                         @if ($layanan->is_active)
-                                            <span class="status-active">Aktif</span>
+                                            <span class="badge-aktif">Aktif</span>
                                         @else
-                                            <span class="status-inactive">Nonaktif</span>
+                                            <span class="badge-nonaktif">Nonaktif</span>
                                         @endif
                                     </td>
 
-                                    <td>
-                                        {{-- Tombol aksi bisa ditambahkan di sini --}}
-                                        <button class="btn-edit">Edit</button>
-                                        <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit" class="btn-delete">
-                                            Hapus
-                                        </button>
-                                    </form>
+                                    <td class="col-action">
+                                        <div class="actions">
+                                            <a href="{{ route('layanan.edit') }}" class="btn-edit">Edit</a>
+                                            <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-del">Hapus</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -110,7 +133,7 @@
 
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan {{ $layanans->count() }} dari {{ $layanans->count() }} layanan</span>
+                    <span class="pagination-info">Menampilkan 1 dari {{ $layanans->count() }} pesanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
