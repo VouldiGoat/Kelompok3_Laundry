@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Service;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -33,4 +35,15 @@ class Order extends Model
         'delivery_fee' => 'decimal:2',
         'total' => 'decimal:2',
     ];
+
+        // Relasi pesanan dengan layanan
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(
+            Service::class,
+            'services_id',
+            'services_id'
+        );
+    }
 }
+

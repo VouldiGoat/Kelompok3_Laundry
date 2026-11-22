@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\DetailPesananController;
 
 
 // ======================================
@@ -70,8 +71,18 @@ Route::prefix('login')
             ->name('layanan');
 
         // Detail Pesanan
-        Route::view('/detail-pesanan', 'detail_pesanan')
+        
+        // Detail Pesanan - Daftar nomor pesanan
+        Route::get('/detail-pesanan', [DetailPesananController::class, 'index'])
             ->name('detail_pesanan');
+
+        // Detail Pesanan - Melihat satu pesanan
+        Route::get('/detail-pesanan/{id}', [DetailPesananController::class, 'show'])
+            ->name('detail_pesanan.show');
+
+        // Detail Pesanan - Menyimpan perubahan admin
+        Route::put('/detail-pesanan/{id}', [DetailPesananController::class, 'update'])
+            ->name('detail_pesanan.update');
 
         // Pembayaran
         Route::view('/pembayaran', 'pembayaran')
