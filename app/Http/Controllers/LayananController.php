@@ -2,42 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Service;
+use App\Models\Order;
+use Illuminate\Http\Request;
 
 class LayananController extends Controller
 {
-    // Menampilkan semua data layanan
+    // Menampilkan seluruh data layanan
     public function index()
     {
-        // Mengambil semua data dari tabel services
-        $layanans = DB::table('services')
-            ->orderBy('services_id', 'desc')
+        $layanans = Service::orderBy('services_id', 'desc')
             ->get();
 
-        // Mengirim data ke halaman layanan
         return view('layanan', compact('layanans'));
     }
 
 
-    // Menghapus data layanan
+    // Menampilkan form tambah layanan
+    public function create()
+    {
+        return view('tambah_layanan');
+    }
+
+
+    // Menyimpan layanan baru
+    public function store(Request $request)
+    {
+        // Validasi data dari form
+        $validated = $request->validate([
+            'services_name' => 'required|string|max:100',
+
+            'description' => 'nullable|string',
+
+            'price' => 'required|numeric|min:0|max:9999999999.99',
+
+            'is_active' => 'required|boolean',
+        ]);
+
+        // Menyimpan layanan menggunakan Model Service
+        Service::create($validated);
+
+        // Kembali ke halaman layanan
+        return redirect()
+            ->route('layanan')
+            ->with('success', 'Layanan berhasil ditambahkan!');
+    }
+
+
+    // Menghapus layanan
     public function destroy($id)
     {
-        // Memeriksa apakah layanan tersedia
-        $layanan = DB::table('services')
-            ->where('services_id', $id)
-            ->first();
-
-        // Jika layanan tidak ditemukan
-        if (!$layanan) {
-            abort(404);
-        }
+        // Mencari layanan berdasarkan ID
+        $layanan = Service::findOrFail($id);
 
         // Memeriksa apakah layanan sudah digunakan pesanan
-        $hasOrders = DB::table('orders')
-            ->where('services_id', $id)
-            ->exists();
+        $hasOrders = Order::where('services_id', $id)->exists();
 
-        // Jika layanan sudah digunakan, penghapusan ditolak
         if ($hasOrders) {
             return redirect()
                 ->route('layanan')
@@ -47,12 +67,9 @@ class LayananController extends Controller
                 );
         }
 
-        // Menghapus layanan berdasarkan ID
-        DB::table('services')
-            ->where('services_id', $id)
-            ->delete();
+        // Menghapus layanan
+        $layanan->delete();
 
-        // Kembali ke halaman layanan
         return redirect()
             ->route('layanan')
             ->with('success', 'Layanan berhasil dihapus!');

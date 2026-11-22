@@ -76,8 +76,22 @@ Route::prefix('login')
             ->name('pesanan');
 
         // Layanan
+        
+        // Menampilkan halaman layanan
         Route::get('/layanan', [LayananController::class, 'index'])
             ->name('layanan');
+
+        // Menampilkan form tambah layanan
+        Route::get('/layanan/tambah', [LayananController::class, 'create'])
+            ->name('layanan.create');
+
+        // Menyimpan layanan baru
+        Route::post('/layanan', [LayananController::class, 'store'])
+            ->name('layanan.store');
+
+        // Menghapus layanan
+        Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])
+            ->name('layanan.destroy');
 
         // Detail Pesanan
         
