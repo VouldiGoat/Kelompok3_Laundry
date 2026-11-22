@@ -86,8 +86,8 @@
 
                                     <td>
                                         {{-- Tombol aksi bisa ditambahkan di sini --}}
-                                            <a href="{{ route('layanan.edit', $layanan->services_id) }}" class="act-btn btn-edit" title="Edit">
-                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                        <a href="{{ route('layanan.edit', $layanan->services_id) }}" class="act-btn btn-edit" title="Edit">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                                             </a>
                                         <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
                                         @csrf
