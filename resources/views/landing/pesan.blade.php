@@ -30,22 +30,23 @@
 
             {{-- Nav Links --}}
             <nav class="navbar-menu" id="navMenu">
-                <a href="{{ route('home') }}#beranda" class="nav-link">Beranda</a>
-                <a href="{{ route('home') }}#tentang" class="nav-link">Tentang Kami</a>
-                <a href="{{ route('home') }}#layanan" class="nav-link">Layanan</a>
-                <a href="{{ route('home') }}#daftar-harga" class="nav-link">Daftar Harga</a>
-                <a href="{{ route('home') }}#status-pesanan" class="nav-link">Status Pesanan</a>
+                <a href="{{ route('home') }}" class="nav-link">Beranda</a>
+                <a href="{{ route('tentang') }}" class="nav-link">Tentang Kami</a>
+                <a href="{{ route('layanan.user') }}" class="nav-link">Layanan</a>
+                <a href="{{ route('status_pesanan') }}" class="nav-link">Status Pesanan</a>
                 <a href="{{ route('home') }}#testimoni" class="nav-link">Testimoni</a>
 
                 {{-- Mobile Menu Actions --}}
                 <div class="mobile-menu-actions">
                     <a href="{{ route('pesan') }}" class="mobile-cta">Pesan Sekarang</a>
+                    <a href="{{ route('login') }}" class="mobile-admin">Masuk</a>
                 </div>
             </nav>
 
             {{-- Action Buttons --}}
             <div class="navbar-actions">
-                <a href="{{ route('pesan') }}" class="pesan-navbar-btn">Pesan Sekarang</a>
+                <a href="{{ route('pesan') }}" class="navbar-cta">Pesan Sekarang</a>
+                <a href="{{ route('login') }}" class="navbar-btn-login">Masuk</a>
             </div>
 
             {{-- Mobile Toggle --}}
@@ -342,11 +343,10 @@
 
             {{-- Col 2: Navigation Links (1 Column) --}}
             <div class="footer-pesan-col footer-pesan-nav">
-                <a href="{{ route('home') }}#beranda">Beranda</a>
-                <a href="{{ route('home') }}#tentang">Tentang Kami</a>
-                <a href="{{ route('home') }}#layanan">Layanan</a>
-                <a href="{{ route('home') }}#daftar-harga">Daftar Harga</a>
-                <a href="{{ route('home') }}#status-pesanan">Status Pesanan</a>
+                <a href="{{ route('home') }}">Beranda</a>
+                <a href="{{ route('tentang') }}">Tentang Kami</a>
+                <a href="{{ route('layanan.user') }}">Layanan</a>
+                <a href="{{ route('status_pesanan') }}">Status Pesanan</a>
                 <a href="{{ route('home') }}#testimoni">Testimoni</a>
             </div>
 
