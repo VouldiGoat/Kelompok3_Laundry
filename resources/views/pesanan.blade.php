@@ -70,7 +70,7 @@
 
                                     {{-- Nomor pesanan --}}
                                     <td class="col-ord">
-                                        #{{ sprintf('%03d', $order->orders_id) }}
+                                        ORD-{{ str_pad($order->orders_id, 5, '0', STR_PAD_LEFT) }}
                                     </td>
 
                                     {{-- Nama pelanggan --}}
@@ -88,14 +88,27 @@
 
                                     {{-- Status pesanan --}}
                                     <td class="col-status">
+
                                         @php
-                                            $st = strtolower($order->orders_status ?? 'diproses');
+                                            $status = strtoupper(trim($order->orders_status ?? 'PENDING'));
                                         @endphp
-                                        @if (str_contains($st, 'selesai') || str_contains($st, 'completed'))
-                                            <span class="badge badge-green">Selesai</span>
+
+                                        @if ($status === 'COMPLETE')
+                                            <span class="badge badge-green">
+                                                COMPLETE
+                                            </span>
+
+                                        @elseif ($status === 'PENDING')
+                                            <span class="badge badge-peach">
+                                                PENDING
+                                            </span>
+
                                         @else
-                                            <span class="badge badge-peach">Diproses</span>
+                                            <span class="badge badge-peach">
+                                                {{ $status }}
+                                            </span>
                                         @endif
+
                                     </td>
 
                                     {{-- Total harga --}}
@@ -128,7 +141,7 @@
                 </div>
 
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 1 dari {{ $orders->count() }} pesanan</span>
+                    <span class="pagination-info">Menampilkan {{ $orders->count() }} dari {{ $orders->count() }} pesanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>

@@ -4,57 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PemesananController extends Controller
 {
     // Menampilkan form pemesanan
     public function create()
     {
-        // Mengambil layanan yang masih aktif
         $services = Service::where('is_active', true)
             ->orderBy('services_name', 'asc')
             ->get();
 
-        // Menampilkan halaman pesan dari folder landing
         return view('landing.pesan', compact('services'));
     }
 
 
-    // Menyimpan pesanan pelanggan
+    // Menyimpan pesanan dan pembayaran
     public function store(Request $request)
     {
-        // Validasi data dari form
+        // Validasi semua input pelanggan
         $validated = $request->validate([
+
             'nama_pemesan' => 'required|string|max:100',
+
             'services_id' => 'required|integer|exists:services,services_id',
+
             'jumlah' => 'required|numeric|gt:0|max:999999',
+
             'pickup_date' => 'required|date|after_or_equal:today',
+
             'pickup_time' => 'required|date_format:H:i',
+
             'addresses' => 'required|string|max:150',
+
             'delivery_date' => 'nullable|date|after_or_equal:pickup_date',
+
             'notes' => 'nullable|string',
+
+            // Metode pembayaran wajib dipilih
+            'payment_method' => 'required|in:QRIS,BCA,E-WALLET,TUNAI',
+
+            // Bukti pembayaran wajib diunggah
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
-        // Mengambil layanan yang dipilih pelanggan
-        // Layanan harus berstatus aktif
-        $service = Service::where('services_id', $validated['services_id'])
-            ->where('is_active', true)
-            ->first();
+
+        // Memastikan layanan masih aktif
+        $service = Service::where(
+            'services_id',
+            $validated['services_id']
+        )
+        ->where('is_active', true)
+        ->first();
 
         if (!$service) {
             return back()
                 ->withInput()
                 ->withErrors([
-                    'services_id' => 'Layanan tidak tersedia.',
+                    'services_id' => 'Layanan tidak tersedia atau sudah dinonaktifkan.',
                 ]);
         }
 
-        // Mengambil jumlah pesanan
+
+        // Menghitung jumlah dan satuan
         $jumlah = (float) $validated['jumlah'];
 
-        // Menyimpan jumlah ke kolom satuan
-        // Contoh: 3 Kg
         $jumlahFormat = rtrim(
             rtrim(number_format($jumlah, 2, '.', ''), '0'),
             '.'
@@ -62,36 +80,108 @@ class PemesananController extends Controller
 
         $satuan = $jumlahFormat . ' Kg';
 
-        // Menghitung subtotal otomatis
-        $subtotal = (float) $service->price * $jumlah;
+
+        // Menghitung harga di backend
+        $subtotal = round(
+            (float) $service->price * $jumlah,
+            2
+        );
 
         // Biaya antar sementara Rp0
         $deliveryFee = 0;
 
-        // Menghitung total otomatis
+        // Total pembayaran
         $total = $subtotal + $deliveryFee;
 
-        // Menyimpan pesanan ke database
-        $order = Order::create([
-            'services_id' => $service->services_id,
-            'nama_pemesan' => $validated['nama_pemesan'],
-            'addresses' => $validated['addresses'],
-            'pickup_date' => $validated['pickup_date'],
-            'pickup_time' => $validated['pickup_time'],
-            'delivery_date' => $validated['delivery_date'] ?? null,
-            'satuan' => $satuan,
-            'subtotal' => $subtotal,
-            'delivery_fee' => $deliveryFee,
-            'total' => $total,
-            'notes' => $validated['notes'] ?? null,
-        ]);
 
-        // Kembali setelah pesanan berhasil dibuat
+        // Menyimpan file bukti pembayaran
+        $proofPath = $request->file('payment_proof')
+            ->store('payment-proofs', 'public');
+
+
+        try {
+
+            // Menyimpan pesanan dan pembayaran dalam satu transaksi
+            $order = DB::transaction(function () use (
+                $validated,
+                $service,
+                $satuan,
+                $subtotal,
+                $deliveryFee,
+                $total,
+                $proofPath
+            ) {
+
+                // Membuat pesanan
+                $order = Order::create([
+
+                    'services_id' => $service->services_id,
+
+                    'nama_pemesan' => $validated['nama_pemesan'],
+
+                    'addresses' => $validated['addresses'],
+
+                    'pickup_date' => $validated['pickup_date'],
+
+                    'satuan' => $satuan,
+
+                    'pickup_time' => $validated['pickup_time'],
+
+                    'delivery_date' => $validated['delivery_date'] ?? null,
+
+                    'subtotal' => $subtotal,
+
+                    'delivery_fee' => $deliveryFee,
+
+                    'total' => $total,
+
+                    'notes' => $validated['notes'] ?? null,
+
+                    // orders_status otomatis PENDING
+                    // order_detail_dok otomatis NULL
+                ]);
+
+
+                // Membuat pembayaran yang terhubung dengan pesanan
+                Payment::create([
+
+                    'order_id' => $order->orders_id,
+
+                    'payment_method' => $validated['payment_method'],
+
+                    'amount' => $total,
+
+                    'payment_proof' => $proofPath,
+
+                    'payment_status' => 'MENUNGGU_VERIFIKASI',
+
+                    // Menunggu admin melakukan verifikasi
+                    'paid_at' => null,
+
+                    'created_at' => now(),
+
+                ]);
+
+                return $order;
+            });
+
+
+        } catch (\Throwable $e) {
+
+            // Jika transaksi database gagal,
+            // hapus juga file yang sudah terlanjur diunggah
+            Storage::disk('public')->delete($proofPath);
+
+            throw $e;
+        }
+
+
+        // Kembali ke form dengan pesan berhasil
         return redirect()
             ->route('pesan')
             ->with(
                 'success',
-                'Pesanan berhasil dikirim! Nomor pesanan: ORD-' .
+                'Pesanan berhasil dikirim! Nomor pesanan Anda: ORD-' .
                 str_pad($order->orders_id, 5, '0', STR_PAD_LEFT)
             );
     }

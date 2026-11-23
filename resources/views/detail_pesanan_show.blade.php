@@ -133,44 +133,81 @@
         </section>
 
 
-        {{-- INFORMASI PEMBAYARAN --}}
+
+        {{-- INFORMASI PEMBAYARAN PELANGGAN --}}
         <section class="detail-card">
 
-            <h3>Rincian Harga</h3>
+            <h3>Informasi Pembayaran</h3>
 
-            <div class="detail-grid">
+            @php
+                $payment = $order->payments->first();
+            @endphp
 
-                <div class="detail-item">
-                    <span>Harga Layanan</span>
-                    <strong>
-                        Rp {{ number_format($order->service?->price ?? 0, 0, ',', '.') }}
-                    </strong>
+            @if ($payment)
+
+                <div class="detail-grid">
+
+                    <div class="detail-item">
+                        <span>Metode Pembayaran</span>
+                        <strong>{{ $payment->payment_method }}</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <span>Jumlah Pembayaran</span>
+                        <strong>
+                            Rp {{ number_format($payment->amount, 0, ',', '.') }}
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <span>Status Pembayaran</span>
+
+                        @if ($payment->payment_status === 'TERVERIFIKASI')
+                            <span class="status-complete">
+                                TERVERIFIKASI
+                            </span>
+                        @else
+                            <span class="status-pending">
+                                MENUNGGU VERIFIKASI
+                            </span>
+                        @endif
+
+                    </div>
+
+                    <div class="detail-item">
+                        <span>Bukti Pembayaran</span>
+
+                        @if ($payment->payment_proof)
+
+                            <a
+                                href="{{ asset('storage/' . $payment->payment_proof) }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-document"
+                            >
+                                Lihat Bukti Pembayaran
+                            </a>
+
+                        @else
+
+                            <strong>Belum ada bukti pembayaran.</strong>
+
+                        @endif
+
+                    </div>
+
                 </div>
 
-                <div class="detail-item">
-                    <span>Subtotal</span>
-                    <strong>
-                        Rp {{ number_format($order->subtotal, 0, ',', '.') }}
-                    </strong>
-                </div>
+            @else
 
-                <div class="detail-item">
-                    <span>Biaya Antar</span>
-                    <strong>
-                        Rp {{ number_format($order->delivery_fee, 0, ',', '.') }}
-                    </strong>
-                </div>
+                <p class="empty-state">
+                    Belum ada data pembayaran untuk pesanan ini.
+                </p>
 
-                <div class="detail-item detail-total">
-                    <span>Total Pembayaran</span>
-                    <strong>
-                        Rp {{ number_format($order->total, 0, ',', '.') }}
-                    </strong>
-                </div>
-
-            </div>
+            @endif
 
         </section>
+
 
 
         {{-- CATATAN DAN DOKUMEN --}}

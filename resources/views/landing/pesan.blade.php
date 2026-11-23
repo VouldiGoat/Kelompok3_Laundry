@@ -98,7 +98,7 @@
                 @endif
 
 
-                <form action="{{ route('pesan.store') }}" method="POST">
+                <form action="{{ route('pesan.store') }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
 
@@ -298,6 +298,260 @@
                     </div>
 
 
+                    {{-- METODE PEMBAYARAN --}}
+                    <div class="payment-section">
+
+                        <h3>Metode Pembayaran</h3>
+
+                        <p class="payment-description">
+                            Silakan pilih metode pembayaran yang ingin digunakan.
+                        </p>
+
+
+                        <div class="payment-method-grid">
+
+                            {{-- QRIS --}}
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    value="QRIS"
+                                    required
+                                    @checked(old('payment_method') === 'QRIS')
+                                >
+
+                                <span class="payment-option-content">
+                                    <strong>QRIS</strong>
+                                    <small>Scan QR untuk membayar</small>
+                                </span>
+
+                            </label>
+
+
+                            {{-- BCA --}}
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    value="BCA"
+                                    @checked(old('payment_method') === 'BCA')
+                                >
+
+                                <span class="payment-option-content">
+                                    <strong>BCA</strong>
+                                    <small>Transfer Bank BCA</small>
+                                </span>
+
+                            </label>
+
+
+                            {{-- E-WALLET --}}
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    value="E-WALLET"
+                                    @checked(old('payment_method') === 'E-WALLET')
+                                >
+
+                                <span class="payment-option-content">
+                                    <strong>E-Wallet</strong>
+                                    <small>DANA / OVO / GoPay</small>
+                                </span>
+
+                            </label>
+
+
+                            {{-- TUNAI --}}
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    value="TUNAI"
+                                    @checked(old('payment_method') === 'TUNAI')
+                                >
+
+                                <span class="payment-option-content">
+                                    <strong>Tunai</strong>
+                                    <small>Bayar langsung di kasir</small>
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        @error('payment_method')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
+
+
+                        {{-- INSTRUKSI QRIS --}}
+                        <div id="qrisInstruction" class="payment-instruction" hidden>
+
+                            <h4>Pembayaran QRIS</h4>
+
+                            <div class="qris-demo">
+
+                                {{-- QR ilustrasi, bukan kode QR pembayaran aktif --}}
+                                <svg
+                                    class="qris-mock"
+                                    viewBox="0 0 180 180"
+                                    role="img"
+                                    aria-label="Ilustrasi QRIS demo, bukan kode pembayaran"
+                                >
+                                    <rect width="180" height="180" rx="8" fill="#ffffff"/>
+
+                                    {{-- Finder kiri atas --}}
+                                    <rect x="12" y="12" width="48" height="48" fill="#111827"/>
+                                    <rect x="20" y="20" width="32" height="32" fill="#ffffff"/>
+                                    <rect x="28" y="28" width="16" height="16" fill="#111827"/>
+
+                                    {{-- Finder kanan atas --}}
+                                    <rect x="120" y="12" width="48" height="48" fill="#111827"/>
+                                    <rect x="128" y="20" width="32" height="32" fill="#ffffff"/>
+                                    <rect x="136" y="28" width="16" height="16" fill="#111827"/>
+
+                                    {{-- Finder kiri bawah --}}
+                                    <rect x="12" y="120" width="48" height="48" fill="#111827"/>
+                                    <rect x="20" y="128" width="32" height="32" fill="#ffffff"/>
+                                    <rect x="28" y="136" width="16" height="16" fill="#111827"/>
+
+                                    {{-- Pola dekoratif --}}
+                                    <g fill="#111827">
+                                        <rect x="72" y="12" width="8" height="8"/>
+                                        <rect x="88" y="12" width="8" height="8"/>
+                                        <rect x="72" y="28" width="8" height="8"/>
+                                        <rect x="96" y="36" width="8" height="8"/>
+                                        <rect x="72" y="52" width="8" height="8"/>
+                                        <rect x="88" y="60" width="8" height="8"/>
+                                        <rect x="112" y="72" width="8" height="8"/>
+                                        <rect x="128" y="72" width="8" height="8"/>
+                                        <rect x="144" y="72" width="8" height="8"/>
+                                        <rect x="72" y="88" width="8" height="8"/>
+                                        <rect x="88" y="88" width="8" height="8"/>
+                                        <rect x="104" y="88" width="8" height="8"/>
+                                        <rect x="128" y="96" width="8" height="8"/>
+                                        <rect x="152" y="104" width="8" height="8"/>
+                                        <rect x="72" y="112" width="8" height="8"/>
+                                        <rect x="88" y="120" width="8" height="8"/>
+                                        <rect x="104" y="120" width="8" height="8"/>
+                                        <rect x="120" y="120" width="8" height="8"/>
+                                        <rect x="144" y="128" width="8" height="8"/>
+                                        <rect x="72" y="144" width="8" height="8"/>
+                                        <rect x="96" y="144" width="8" height="8"/>
+                                        <rect x="112" y="152" width="8" height="8"/>
+                                        <rect x="136" y="152" width="8" height="8"/>
+                                        <rect x="160" y="152" width="8" height="8"/>
+                                    </g>
+
+                                    <text
+                                        x="90"
+                                        y="98"
+                                        text-anchor="middle"
+                                        font-size="12"
+                                        font-weight="bold"
+                                        fill="#dc2626"
+                                    >
+                                        DEMO
+                                    </text>
+                                </svg>
+
+                                <strong>QRIS LAUNDRY AZZAM</strong>
+
+                                <span>
+                                    ILUSTRASI SAJA — BUKAN QR PEMBAYARAN AKTIF
+                                </span>
+
+                            </div>
+
+                            <p>
+                                Ini hanya tampilan contoh QRIS. Ganti dengan gambar QRIS resmi
+                                milik Laundry Azzam sebelum sistem digunakan untuk transaksi nyata.
+                            </p>
+
+                        </div>
+
+
+                        {{-- INSTRUKSI BCA --}}
+                        <div id="bcaInstruction" class="payment-instruction" hidden>
+
+                            <h4>Transfer Bank BCA</h4>
+
+                            <p>
+                                Nomor rekening dan nama pemilik rekening resmi Laundry Azzam
+                                akan dicantumkan di sini.
+                            </p>
+
+                            <small>
+                                Pastikan rekening tujuan sudah benar sebelum melakukan transfer.
+                            </small>
+
+                        </div>
+
+
+                        {{-- INSTRUKSI E-WALLET --}}
+                        <div id="ewalletInstruction" class="payment-instruction" hidden>
+
+                            <h4>Pembayaran E-Wallet</h4>
+
+                            <p>
+                                DANA / OVO / GoPay
+                            </p>
+
+                            <small>
+                                Isi nomor akun resmi Laundry Azzam di sini sebelum digunakan.
+                            </small>
+
+                        </div>
+
+
+                        {{-- INSTRUKSI TUNAI --}}
+                        <div id="cashInstruction" class="payment-instruction" hidden>
+
+                            <h4>Pembayaran Tunai</h4>
+
+                            <p>
+                                Lakukan pembayaran tunai terlebih dahulu di kasir Laundry Azzam,
+                                lalu unggah foto nota pembayaran sebagai bukti.
+                            </p>
+
+                        </div>
+
+
+                        {{-- UPLOAD BUKTI PEMBAYARAN --}}
+                        <div class="payment-proof">
+
+                            <label for="payment_proof">
+                                Upload Bukti Pembayaran
+                            </label>
+
+                            <input
+                                type="file"
+                                id="payment_proof"
+                                name="payment_proof"
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                required
+                            >
+
+                            <small>
+                                Format JPG, JPEG, PNG, atau PDF. Maksimal 5 MB.
+                            </small>
+
+                            @error('payment_proof')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+
+
                     {{-- ACTION BUTTONS --}}
 
                     <div class="order-actions">
@@ -459,6 +713,49 @@
             deliveryDate.value = '';
         }
     });
+
+        // Mengambil semua pilihan metode pembayaran
+    const paymentRadios = document.querySelectorAll(
+        'input[name="payment_method"]'
+    );
+
+    // Mengambil setiap kotak instruksi
+    const paymentInstructions = {
+        QRIS: document.getElementById('qrisInstruction'),
+        BCA: document.getElementById('bcaInstruction'),
+        'E-WALLET': document.getElementById('ewalletInstruction'),
+        TUNAI: document.getElementById('cashInstruction')
+    };
+
+    // Menampilkan instruksi sesuai pilihan
+    function showPaymentInstruction() {
+
+        // Menyembunyikan semua instruksi
+        Object.values(paymentInstructions).forEach(function(element) {
+            element.hidden = true;
+        });
+
+        // Mencari metode yang dipilih
+        const selected = document.querySelector(
+            'input[name="payment_method"]:checked'
+        );
+
+        // Jika belum memilih, tidak menampilkan instruksi
+        if (!selected) {
+            return;
+        }
+
+        // Menampilkan instruksi metode terpilih
+        paymentInstructions[selected.value].hidden = false;
+    }
+
+    // Menjalankan fungsi saat metode berubah
+    paymentRadios.forEach(function(radio) {
+        radio.addEventListener('change', showPaymentInstruction);
+    });
+
+    // Mempertahankan pilihan lama setelah validasi gagal
+    showPaymentInstruction();
     </script>
 </body>
 

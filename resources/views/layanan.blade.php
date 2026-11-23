@@ -122,7 +122,7 @@
 
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 1 dari {{ $layanans->count() }} pesanan</span>
+                    <span class="pagination-info">Menampilkan {{ $layanans->count() }} dari {{ $layanans->count() }} layanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>

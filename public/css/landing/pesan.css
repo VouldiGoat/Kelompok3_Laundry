@@ -442,3 +442,194 @@
     color: #dc2626;
     font-size: 12px;
 }
+
+
+/* ======================================
+   METODE PEMBAYARAN
+====================================== */
+
+.payment-section {
+    margin-top: 25px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #d1e7d7;
+    border-radius: 13px;
+}
+
+.payment-section h3 {
+    color: #166534;
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.payment-description {
+    color: #667085;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+.payment-method-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.payment-option {
+    cursor: pointer;
+    position: relative;
+}
+
+.payment-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.payment-option-content {
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px;
+    border: 1px solid #d1e7d7;
+    border-radius: 10px;
+    background: #ffffff;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.payment-option-content strong {
+    color: #23783b;
+    font-size: 15px;
+}
+
+.payment-option-content small {
+    color: #667085;
+    font-size: 10px;
+}
+
+.payment-option input:checked + .payment-option-content {
+    background: #eaf6ec;
+    border: 2px solid #3f9a4b;
+    box-shadow: 0 0 0 3px rgba(63, 154, 75, 0.09);
+}
+
+.payment-option:hover .payment-option-content {
+    border-color: #3f9a4b;
+}
+
+
+/* ======================================
+   INSTRUKSI PEMBAYARAN
+====================================== */
+
+.payment-instruction {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f7fbf7;
+    border: 1px solid #d5ebd8;
+    border-radius: 12px;
+}
+
+.payment-instruction[hidden] {
+    display: none !important;
+}
+
+.payment-instruction h4 {
+    color: #23783b;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.payment-instruction p,
+.payment-instruction small {
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* QRIS dummy */
+
+.qris-demo {
+    width: fit-content;
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #d1e7d7;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.qris-mock {
+    display: block;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+}
+
+.qris-demo strong {
+    color: #166534;
+    font-size: 13px;
+}
+
+.qris-demo span {
+    color: #dc2626;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* ======================================
+   BUKTI PEMBAYARAN
+====================================== */
+
+.payment-proof {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.payment-proof label {
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.payment-proof input {
+    width: 100%;
+    padding: 13px;
+    border: 1px dashed #3f9a4b;
+    border-radius: 9px;
+    background: #f7fbf7;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.payment-proof small {
+    color: #667085;
+    font-size: 11px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+    .payment-method-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .payment-section {
+        padding: 16px;
+    }
+}

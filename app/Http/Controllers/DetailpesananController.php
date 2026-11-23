@@ -19,12 +19,14 @@ class DetailPesananController extends Controller
         return view('detail_pesanan', compact('orders'));
     }
 
-
-    // Menampilkan rincian satu pesanan
+    // Menampilkan detail pesanan berdasarkan ID
     public function show($id)
     {
-        $order = Order::with('service')
-            ->findOrFail($id);
+        // Mengambil pesanan, layanan, dan pembayaran
+        $order = Order::with([
+            'service',
+            'payments',
+        ])->findOrFail($id);
 
         return view('detail_pesanan_show', compact('order'));
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Service;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -43,6 +44,16 @@ class Order extends Model
             Service::class,
             'services_id',
             'services_id'
+        );
+    }
+
+        // Satu pesanan memiliki data pembayaran
+    public function payments(): HasMany
+    {
+        return $this->hasMany(
+            Payment::class,
+            'order_id',
+            'orders_id'
         );
     }
 }

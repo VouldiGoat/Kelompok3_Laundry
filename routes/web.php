@@ -8,6 +8,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\DetailPesananController;
+use App\Http\Controllers\PembayaranController;
 
 
 // ======================================
@@ -84,7 +85,6 @@ Route::get('/pesan', [PemesananController::class, 'create'])
 Route::post('/pesan', [PemesananController::class, 'store'])
     ->name('pesan.store');
 
-
 // ======================================
 // LOGIN
 // ======================================
@@ -154,6 +154,10 @@ Route::prefix('login')
         // Pembayaran
         Route::view('/pembayaran', 'pembayaran')
             ->name('pembayaran.admin');
+
+        // Halaman Pembayaran
+        Route::get('/pembayaran', [PembayaranController::class, 'index'])
+            ->name('pembayaran');
 
     });
 

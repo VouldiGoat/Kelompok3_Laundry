@@ -161,75 +161,112 @@
                                 <th>No</th>
                                 <th>No. Pesanan</th>
                                 <th>Nama Pelanggan</th>
-                                <th>Jenis layanan</th>
+                                <th>Metode Pembayaran</th>
+                                <th>Jenis Layanan</th>
                                 <th>Tanggal Masuk</th>
-                                <th>Status</th>
-                                <th>Total Harga</th>
-                                <th>Aksi</th>
+                                <th>Total Pembayaran</th>
+                                <th>Status Pembayaran</th>
+                                <th>Bukti Pembayaran</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {{-- State Data Kosong Sesuai Permintaan --}}
-                            <tr class="empty-row">
-                                <td colspan="8" class="empty-state">
-                                    <div class="empty-box">
-                                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                                            <line x1="1" y1="10" x2="23" y2="10"/>
-                                        </svg>
-                                        <p>Belum ada data pembayaran.</p>
-                                    </div>
-                                </td>
-                            </tr>
 
-                            {{-- 
-                            CONTOH DATA DUMMY (Sesuai Mockup Gambar - Buka komentar ini jika ingin melihat contoh terisi):
-                            <tr>
-                                <td>01</td>
-                                <td>#024</td>
-                                <td>Budi</td>
-                                <td>Reguler</td>
-                                <td>25 okt 2026</td>
-                                <td><span class="badge-status badge-diproses">Diproses</span></td>
-                                <td>Rp25.000</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button type="button" class="act-btn act-edit" title="Edit">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                                        </button>
-                                        <button type="button" class="act-btn act-del" title="Hapus">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                        </button>
-                                        <button type="button" class="act-btn act-view" title="Detail">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>02</td>
-                                <td>#025</td>
-                                <td>Tiara</td>
-                                <td>Express</td>
-                                <td>25 okt 2026</td>
-                                <td><span class="badge-status badge-selesai">Selesai</span></td>
-                                <td>Rp40.000</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button type="button" class="act-btn act-edit" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
-                                        <button type="button" class="act-btn act-del" title="Hapus"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
-                                        <button type="button" class="act-btn act-view" title="Detail"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            --}}
+ 
+                        <tbody>
+
+                            @forelse ($payments as $payment)
+
+                                <tr>
+
+                                    {{-- Nomor urut --}}
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    {{-- Nomor pesanan --}}
+                                    <td>
+                                        @if ($payment->order)
+                                            ORD-{{ str_pad($payment->order->orders_id, 5, '0', STR_PAD_LEFT) }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+
+                                    {{-- Nama pelanggan --}}
+                                    <td>
+                                        {{ $payment->order?->nama_pemesan ?? '-' }}
+                                    </td>
+
+                                    {{-- Metode pembayaran --}}
+                                    <td>
+                                        <span class="payment-method-label">
+                                            {{ $payment->payment_method }}
+                                        </span>
+                                    </td>
+
+                                    {{-- Jenis layanan --}}
+                                    <td>
+                                        {{ $payment->order?->service?->services_name ?? '-' }}
+                                    </td>
+
+                                    {{-- Tanggal masuk --}}
+                                    <td>
+                                        {{ $payment->created_at
+                                            ? \Carbon\Carbon::parse($payment->created_at)->format('d/m/Y')
+                                            : '-' }}
+                                    </td>
+
+                                    {{-- Total pembayaran --}}
+                                    <td>
+                                        Rp {{ number_format($payment->amount, 0, ',', '.') }}
+                                    </td>
+
+                                    {{-- Status pembayaran --}}
+                                    <td>
+                                        @if ($payment->payment_status === 'TERVERIFIKASI')
+                                            <span class="status-complete">
+                                                TERVERIFIKASI
+                                            </span>
+                                        @else
+                                            <span class="status-pending">
+                                                MENUNGGU VERIFIKASI
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    {{-- Bukti pembayaran --}}
+                                    <td>
+                                        @if ($payment->payment_proof)
+                                            <a
+                                                href="{{ asset('storage/' . $payment->payment_proof) }}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn-document"
+                                            >
+                                                Lihat Bukti
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="9" class="empty-state">
+                                        Belum ada data pembayaran.
+                                    </td>
+                                </tr>
+
+                            @endforelse
+
                         </tbody>
+
                     </table>
                 </div>
 
                 {{-- Pagination Footer --}}
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan 0 dari 0 pesanan</span>
+                    <span class="pagination-info">Menampilkan {{ $payments->count() }} dari {{ $payments->count() }} pembayaran</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
