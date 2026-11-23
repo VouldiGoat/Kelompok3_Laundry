@@ -77,7 +77,7 @@
                 </p>
             </div>
 
-            <div class="hero-image" data-animate="fade-left" data-delay="200">
+            <div class="hero-image" data-animate="fade-left" data-delay="200" data-parallax data-speed="1.05">
                 <img src="{{ asset('images/banner.png') }}" alt="Laundry Azzam Basket">
             </div>
 
@@ -90,12 +90,12 @@
         <div class="about-card-wrapper" data-animate="fade-up">
 
             {{-- Left: Storefront Image --}}
-            <div class="about-store-img-box">
+            <div class="about-store-img-box" data-animate="fade-right" data-delay="100">
                 <img src="{{ asset('images/about-store.png') }}" alt="Toko Laundry Azzam">
             </div>
 
             {{-- Center: Story & Features --}}
-            <div class="about-story-content">
+            <div class="about-story-content" data-animate="fade-up" data-delay="150">
                 <span class="about-badge">Tentang Kami</span>
                 <h2 class="about-story-title">Cerita & Komitmen Kami</h2>
                 <p class="about-story-desc">
@@ -105,7 +105,7 @@
                 {{-- 3 Mini Features --}}
                 <div class="about-features-row">
                     {{-- 1. Bersih & Higienis --}}
-                    <div class="about-feat-item">
+                    <div class="about-feat-item" data-animate="fade-up" data-delay="250">
                         <div class="feat-circle-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -119,7 +119,7 @@
                     </div>
 
                     {{-- 2. Pelayanan Ramah --}}
-                    <div class="about-feat-item">
+                    <div class="about-feat-item" data-animate="fade-up" data-delay="350">
                         <div class="feat-circle-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -132,7 +132,7 @@
                     </div>
 
                     {{-- 3. Tepat Waktu --}}
-                    <div class="about-feat-item">
+                    <div class="about-feat-item" data-animate="fade-up" data-delay="450">
                         <div class="feat-circle-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"/>
@@ -148,7 +148,7 @@
             </div>
 
             {{-- Right: Handwritten Quote --}}
-            <div class="about-quote-box">
+            <div class="about-quote-box" data-animate="fade-left" data-delay="200">
                 <span class="quote-text">
                     Karena pakaian bersih<br>
                     adalah awal dari<br>
@@ -164,11 +164,11 @@
     {{-- ==================== VISI & MISI KAMI ==================== --}}
     <section class="visi-misi-section" id="visi-misi">
         <div class="visi-misi-wrapper" data-animate="fade-up">
-            <h2 class="visi-misi-title">Visi & Misi Kami</h2>
+            <h2 class="visi-misi-title" data-animate="fade-up" data-delay="100">Visi & Misi Kami</h2>
 
             <div class="visi-misi-grid">
                 {{-- Box Visi --}}
-                <div class="vm-box">
+                <div class="vm-box" data-animate="fade-right" data-delay="200">
                     <h3>Visi</h3>
                     <p>
                         Menjadi penyedia layanan laundry profesional terdepan, terpercaya, dan pilihan utama bagi masyarakat dengan mengutamakan standar kebersihan serta keharuman maksimal, kecepatan dan ketepatan waktu pengerjaan, serta inovasi layanan digital yang modern demi memberikan kemudahan, keamanan, dan kenyamanan perawatan pakaian keluarga setiap hari.
@@ -176,7 +176,7 @@
                 </div>
 
                 {{-- Box Misi --}}
-                <div class="vm-box">
+                <div class="vm-box" data-animate="fade-left" data-delay="300">
                     <h3>Misi</h3>
                     <p>
                         <strong>1. Kualitas Cuci Terbaik:</strong> Menggunakan mesin modern dan deterjen ramah lingkungan yang aman bagi serat pakaian.
@@ -200,9 +200,9 @@
             <p>Kami menerapkan standar terbaik di setiap tahap pencucian untuk menjaga kualitas pakaian Anda.</p>
         </div>
 
-        <div class="keunggulan-grid" data-animate="fade-up" data-delay="150">
+        <div class="keunggulan-grid">
             {{-- Card 1: Deterjen Ramah Lingkungan --}}
-            <div class="keunggulan-card card-mint">
+            <div class="keunggulan-card card-mint" data-animate="fade-up" data-delay="100">
                 <div class="k-icon-circle k-icon-mint">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
@@ -214,7 +214,7 @@
             </div>
 
             {{-- Card 2: Mesin Modern & Higienis --}}
-            <div class="keunggulan-card card-peach">
+            <div class="keunggulan-card card-peach" data-animate="fade-up" data-delay="250">
                 <div class="k-icon-circle k-icon-peach">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="4" y="2" width="16" height="20" rx="3" ry="3"/>
@@ -229,7 +229,7 @@
             </div>
 
             {{-- Card 3: Quality Control Ketat --}}
-            <div class="keunggulan-card card-mint">
+            <div class="keunggulan-card card-mint" data-animate="fade-up" data-delay="400">
                 <div class="k-icon-circle k-icon-mint">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>

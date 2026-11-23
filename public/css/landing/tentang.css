@@ -3,13 +3,6 @@
    Matches the design mockup 100%
    =================================================== */
 
-/* Ensure all content is immediately visible without blank screens */
-[data-animate] {
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-}
-
 /* Footer Fix */
 .footer-logo {
     display: inline-flex !important;
@@ -65,6 +58,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.4s ease;
+}
+
+.about-card-wrapper:hover .about-store-img-box img {
+    transform: scale(1.025);
 }
 
 .about-story-content {
@@ -196,6 +194,12 @@
     border-radius: 12px;
     padding: 24px 28px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.vm-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(46, 125, 50, 0.08);
 }
 
 .vm-box h3 {
@@ -255,12 +259,15 @@
     border-radius: 16px;
     padding: 28px 20px;
     text-align: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
 }
 
 .keunggulan-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(46, 125, 50, 0.1);
 }
 
 .card-mint {

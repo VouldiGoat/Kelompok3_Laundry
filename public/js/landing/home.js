@@ -6,27 +6,46 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // ==========================================
-    // 1. LENIS SMOOTH SCROLLING
+    // 1. LENIS SMOOTH SCROLLING (WITH FALLBACK)
     // ==========================================
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: function (t) {
-            return Math.min(1, 1.001 - Math.pow(2, -10 * t));
-        },
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-        infinite: false,
-    });
+    var lenis = null;
+    if (typeof Lenis !== 'undefined') {
+        try {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: function (t) {
+                    return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+                },
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                wheelMultiplier: 1,
+                touchMultiplier: 2,
+                infinite: false,
+            });
 
-    // Connect Lenis to RAF loop
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        } catch (err) {
+            console.warn('Lenis initialization error:', err);
+            lenis = null;
+        }
     }
-    requestAnimationFrame(raf);
+
+    // Universal scroll listener that works with or without Lenis
+    function onScroll(callback) {
+        if (lenis) {
+            lenis.on('scroll', callback);
+        } else {
+            window.addEventListener('scroll', function () {
+                var scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+                callback({ scroll: scrollY });
+            }, { passive: true });
+        }
+    }
 
     // Make anchor links work smoothly with Lenis
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
@@ -34,13 +53,17 @@ document.addEventListener('DOMContentLoaded', function () {
             var targetId = this.getAttribute('href');
             if (targetId === '#') return;
 
-            e.preventDefault();
             var target = document.querySelector(targetId);
             if (target) {
-                lenis.scrollTo(target, {
-                    offset: -80,
-                    duration: 1.5,
-                });
+                e.preventDefault();
+                if (lenis) {
+                    lenis.scrollTo(target, {
+                        offset: -80,
+                        duration: 1.5,
+                    });
+                } else {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
     });
@@ -53,9 +76,9 @@ document.addEventListener('DOMContentLoaded', function () {
     progressBar.className = 'scroll-progress';
     document.body.prepend(progressBar);
 
-    lenis.on('scroll', function (e) {
+    onScroll(function (e) {
         var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        var scrollPercent = (e.scroll / scrollHeight) * 100;
+        var scrollPercent = scrollHeight > 0 ? (e.scroll / scrollHeight) * 100 : 0;
         progressBar.style.width = scrollPercent + '%';
     });
 
@@ -65,16 +88,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     var navbar = document.getElementById('navbar');
 
-    lenis.on('scroll', function (e) {
-        var currentScrollY = e.scroll;
+    if (navbar) {
+        onScroll(function (e) {
+            var currentScrollY = e.scroll;
 
-        // Add subtle shadow when scrolled
-        if (currentScrollY > 20) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+            // Add subtle shadow when scrolled
+            if (currentScrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
 
     // ==========================================
@@ -123,8 +148,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -60px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
     });
 
     // Observe all elements with data-animate
@@ -141,30 +166,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // 7. FEATURE ITEMS STAGGER REVEAL
     // ==========================================
-    var featureItems = document.querySelectorAll('.feature-item');
-
     var featureObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                // Stagger animate each feature item
-                featureItems.forEach(function (item, index) {
+                var items = entry.target.querySelectorAll('.feature-item, .about-feat-item');
+                items.forEach(function (item, index) {
                     setTimeout(function () {
                         item.classList.add('is-visible');
-                    }, index * 200);
+                    }, index * 150);
                 });
 
                 featureObserver.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.3,
+        threshold: 0.2,
         rootMargin: '0px'
     });
 
-    var aboutFeatures = document.querySelector('.about-features');
-    if (aboutFeatures) {
-        featureObserver.observe(aboutFeatures);
-    }
+    document.querySelectorAll('.about-features, .about-features-row').forEach(function (container) {
+        featureObserver.observe(container);
+    });
 
 
     // ==========================================
@@ -172,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     var parallaxElements = document.querySelectorAll('[data-parallax]');
 
-    lenis.on('scroll', function (e) {
+    onScroll(function (e) {
         var scrollY = e.scroll;
 
         parallaxElements.forEach(function (el) {
@@ -192,11 +214,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // ==========================================
-    // 9. SERVICE CARDS TILT EFFECT
+    // 9. SERVICE & KEUNGGULAN CARDS TILT EFFECT
     // ==========================================
-    var serviceCards = document.querySelectorAll('.service-card');
+    var tiltCards = document.querySelectorAll('.service-card, .keunggulan-card');
 
-    serviceCards.forEach(function (card) {
+    tiltCards.forEach(function (card) {
         card.addEventListener('mousemove', function (e) {
             var rect = card.getBoundingClientRect();
             var x = e.clientX - rect.left;
