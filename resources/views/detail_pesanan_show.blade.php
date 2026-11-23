@@ -103,6 +103,12 @@
                 </div>
 
                 <div class="detail-item">
+                    <span>Zona Pengiriman</span>
+                    
+                    <strong>{{ $order->deliveryZone?->zone_name ?? 'Zona belum ditentukan' }}</strong>
+                </div>
+
+                <div class="detail-item">
                     <span>Tanggal Jemput</span>
                     <strong>{{ \Carbon\Carbon::parse($order->pickup_date)->format('d/m/Y') }}</strong>
                 </div>
@@ -134,7 +140,8 @@
 
 
 
-        {{-- INFORMASI PEMBAYARAN PELANGGAN --}}
+
+        {{-- INFORMASI PEMBAYARAN --}}
         <section class="detail-card">
 
             <h3>Informasi Pembayaran</h3>
@@ -171,14 +178,12 @@
                                 MENUNGGU VERIFIKASI
                             </span>
                         @endif
-
                     </div>
 
                     <div class="detail-item">
                         <span>Bukti Pembayaran</span>
 
                         @if ($payment->payment_proof)
-
                             <a
                                 href="{{ asset('storage/' . $payment->payment_proof) }}"
                                 target="_blank"
@@ -187,13 +192,9 @@
                             >
                                 Lihat Bukti Pembayaran
                             </a>
-
                         @else
-
                             <strong>Belum ada bukti pembayaran.</strong>
-
                         @endif
-
                     </div>
 
                 </div>
@@ -201,12 +202,13 @@
             @else
 
                 <p class="empty-state">
-                    Belum ada data pembayaran untuk pesanan ini.
+                    Belum ada data pembayaran.
                 </p>
 
             @endif
 
         </section>
+
 
 
 
@@ -263,134 +265,199 @@
         </section>
 
 
-        {{-- FORM PENGELOLAAN ADMIN --}}
-        <section class="detail-card admin-edit-card">
 
-            <h3>Kelola Detail Pesanan</h3>
+            {{-- FORM PENGELOLAAN ADMIN --}}
 
-            <p class="detail-description">
-                Admin dapat mengubah status, tanggal antar, catatan,
-                dan menambahkan dokumen pesanan.
-            </p>
+            @php
+                $payment = $order->payments->first();
+            @endphp
+
+            <section class="detail-card admin-edit-card">
+
+                <h3>Kelola Detail Pesanan</h3>
+
+                <p class="detail-description">
+                    Admin dapat mengubah status pesanan, status pembayaran,
+                    biaya antar, tanggal antar, catatan, dan dokumen pesanan.
+                </p>
+
+                <form
+                    action="{{ route('detail_pesanan.update', $order->orders_id) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    @csrf
+                    @method('PUT')
 
 
-            <form
-                action="{{ route('detail_pesanan.update', $order->orders_id) }}"
-                method="POST"
-                enctype="multipart/form-data"
-            >
+                    {{-- STATUS PESANAN --}}
+                    <div class="form-group">
 
-                @csrf
-                @method('PUT')
+                        <label for="orders_status">
+                            Status Pesanan
+                        </label>
 
-
-                {{-- STATUS --}}
-                <div class="form-group">
-
-                    <label for="orders_status">
-                        Status Pesanan
-                    </label>
-
-                    <select name="orders_status" id="orders_status" required>
-
-                        <option
-                            value="PENDING"
-                            @selected(old('orders_status', $order->orders_status) === 'PENDING')
+                        <select
+                            name="orders_status"
+                            id="orders_status"
+                            required
                         >
-                            PENDING
-                        </option>
 
-                        <option
-                            value="COMPLETE"
-                            @selected(old('orders_status', $order->orders_status) === 'COMPLETE')
+                            <option
+                                value="PENDING"
+                                @selected(old('orders_status', $order->orders_status) === 'PENDING')
+                            >
+                                PENDING
+                            </option>
+
+                            <option
+                                value="COMPLETE"
+                                @selected(old('orders_status', $order->orders_status) === 'COMPLETE')
+                            >
+                                COMPLETE
+                            </option>
+
+                        </select>
+
+                        @error('orders_status')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
+
+                    </div>
+
+
+                    {{-- STATUS PEMBAYARAN --}}
+                    <div class="form-group">
+
+                        <label for="payment_status">
+                            Status Pembayaran
+                        </label>
+
+                        @if ($payment)
+
+                            <select
+                                name="payment_status"
+                                id="payment_status"
+                                required
+                            >
+
+                                <option
+                                    value="MENUNGGU_VERIFIKASI"
+                                    @selected(old('payment_status', $payment->payment_status) === 'MENUNGGU_VERIFIKASI')
+                                >
+                                    MENUNGGU VERIFIKASI
+                                </option>
+
+                                <option
+                                    value="TERVERIFIKASI"
+                                    @selected(old('payment_status', $payment->payment_status) === 'TERVERIFIKASI')
+                                >
+                                    TERVERIFIKASI
+                                </option>
+
+                            </select>
+
+                        @else
+
+                            <p class="form-help">
+                                Belum ada data pembayaran untuk pesanan ini.
+                            </p>
+
+                        @endif
+
+                        @error('payment_status')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
+
+                    </div>
+
+
+                    {{-- TANGGAL ANTAR --}}
+                    <div class="form-group">
+
+                        <label for="delivery_date">
+                            Tanggal Antar
+                        </label>
+
+                        <input
+                            type="date"
+                            name="delivery_date"
+                            id="delivery_date"
+                            value="{{ old('delivery_date', $order->delivery_date) }}"
+                            min="{{ $order->pickup_date }}"
                         >
-                            COMPLETE
-                        </option>
 
-                    </select>
+                        @error('delivery_date')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
 
-                </div>
-
-
-                {{-- TANGGAL ANTAR --}}
-                <div class="form-group">
-
-                    <label for="delivery_date">
-                        Tanggal Antar
-                    </label>
-
-                    <input
-                        type="date"
-                        name="delivery_date"
-                        id="delivery_date"
-                        value="{{ old('delivery_date', $order->delivery_date) }}"
-                    >
-
-                    @error('delivery_date')
-                        <small class="form-error">{{ $message }}</small>
-                    @enderror
-
-                </div>
+                    </div>
 
 
-                {{-- CATATAN --}}
-                <div class="form-group">
+                    {{-- CATATAN --}}
+                    <div class="form-group">
 
-                    <label for="notes">
-                        Catatan Pesanan
-                    </label>
+                        <label for="notes">
+                            Catatan Pesanan
+                        </label>
 
-                    <textarea
-                        name="notes"
-                        id="notes"
-                        rows="4"
-                    >{{ old('notes', $order->notes) }}</textarea>
+                        <textarea
+                            name="notes"
+                            id="notes"
+                            rows="4"
+                        >{{ old('notes', $order->notes) }}</textarea>
 
-                </div>
+                        @error('notes')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
 
-
-                {{-- DOKUMEN --}}
-                <div class="form-group">
-
-                    <label for="dokumen">
-                        Upload Dokumen Pesanan
-                    </label>
-
-                    <input
-                        type="file"
-                        name="dokumen"
-                        id="dokumen"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                    >
-
-                    <small class="form-help">
-                        Format yang diperbolehkan: PDF, JPG, JPEG, dan PNG.
-                        Maksimal 5 MB.
-                    </small>
-
-                    @error('dokumen')
-                        <small class="form-error">{{ $message }}</small>
-                    @enderror
-
-                </div>
+                    </div>
 
 
-                {{-- TOMBOL --}}
-                <div class="form-actions">
+                    {{-- DOKUMEN --}}
+                    <div class="form-group">
 
-                    <button type="submit" class="btn-save-detail">
-                        Simpan Perubahan
-                    </button>
+                        <label for="dokumen">
+                            Upload Dokumen Pesanan
+                        </label>
 
-                    <a href="{{ route('detail_pesanan') }}" class="btn-back">
-                        Batal
-                    </a>
+                        <input
+                            type="file"
+                            name="dokumen"
+                            id="dokumen"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                        >
 
-                </div>
+                        <small class="form-help">
+                            Format PDF, JPG, JPEG, dan PNG. Maksimal 5 MB.
+                        </small>
 
-            </form>
+                        @error('dokumen')
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
 
-        </section>
+                    </div>
+
+
+                    {{-- TOMBOL --}}
+                    <div class="form-actions">
+
+                        <button type="submit" class="btn-save-detail">
+                            Simpan Perubahan
+                        </button>
+
+                        <a
+                            href="{{ route('detail_pesanan') }}"
+                            class="btn-back"
+                        >
+                            Batal
+                        </a>
+
+                    </div>
+                </form>
+
+            </section>
 
     </main>
 

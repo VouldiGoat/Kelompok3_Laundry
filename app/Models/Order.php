@@ -14,19 +14,20 @@ class Order extends Model
     protected $primaryKey = 'orders_id';
 
     protected $fillable = [
-    'services_id',
-    'nama_pemesan',
-    'addresses',
-    'pickup_date',
-    'satuan',
-    'pickup_time',
-    'delivery_date',
-    'subtotal',
-    'delivery_fee',
-    'total',
-    'notes',
-    'orders_status',
-    'order_detail_dok',
+        'services_id',
+        'delivery_zone_id',
+        'nama_pemesan',
+        'addresses',
+        'pickup_date',
+        'satuan',
+        'pickup_time',
+        'delivery_date',
+        'subtotal',
+        'delivery_fee',
+        'total',
+        'notes',
+        'orders_status',
+        'order_detail_dok',
     ];
 
     protected $casts = [
@@ -56,5 +57,14 @@ class Order extends Model
             'orders_id'
         );
     }
-}
 
+        // Pesanan memiliki satu zona pengiriman
+    public function deliveryZone(): BelongsTo
+    {
+        return $this->belongsTo(
+            DeliveryZone::class,
+            'delivery_zone_id',
+            'delivery_zones_id'
+        );
+    }
+}

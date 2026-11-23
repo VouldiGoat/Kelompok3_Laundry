@@ -274,6 +274,42 @@
                     </div>
 
 
+                        {{-- ZONA PENGIRIMAN --}}
+                        <div class="order-group">
+
+                            <label for="delivery_zone_id">
+                                Wilayah Penjemputan
+                            </label>
+
+                            <select
+                                name="delivery_zone_id"
+                                id="delivery_zone_id"
+                                required
+                            >
+
+                                <option value="">-- Pilih Wilayah --</option>
+
+                                @foreach ($zones as $zone)
+
+                                    <option
+                                        value="{{ $zone->delivery_zones_id }}"
+                                        data-fee="{{ $zone->delivery_fee }}"
+                                        @selected(old('delivery_zone_id') == $zone->delivery_zones_id)
+                                    >
+                                        {{ $zone->zone_name }}
+                                        - Rp {{ number_format($zone->delivery_fee, 0, ',', '.') }}
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                            @error('delivery_zone_id')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
+
+                        </div>
+
                     {{-- RINCIAN HARGA OTOMATIS --}}
 
                     <div class="order-price-summary">
@@ -287,7 +323,7 @@
 
                         <div class="price-row">
                             <span>Biaya Antar</span>
-                            <strong>Rp 0</strong>
+                            <strong id="deliveryPreview">Rp 0</strong>
                         </div>
 
                         <div class="price-row price-total">
@@ -582,53 +618,63 @@
 
 
     {{-- ==================== FOOTER ==================== --}}
-    <footer class="footer-pesan">
-        <div class="footer-pesan-container">
+    <footer class="footer" data-animate="fade-up">
+        <div class="footer-container">
 
-            {{-- Col 1: Brand Text --}}
-            <div class="footer-pesan-col footer-pesan-brand">
-                <h3 class="footer-pesan-title">Laundry Azzam</h3>
-                <span class="footer-pesan-since">Since 2015</span>
-                <p>
-                    Laundry Azzam, solusi laundry praktis,<br>
-                    bersih, dan terpercaya untuk Anda.
+            {{-- Col 1: Brand Info --}}
+            <div class="footer-col footer-brand" data-animate="fade-up">
+                <a href="{{ route('home') }}" class="footer-logo">
+                    <img src="{{ asset('images/logo-laundry.png') }}" alt="Laundry Azzam">
+                </a>
+                <p class="footer-tagline">
+                    Laundry Azzam, solusi laundry praktis, bersih, dan terpercaya untuk anda.
                 </p>
             </div>
 
-            {{-- Col 2: Navigation Links (1 Column) --}}
-            <div class="footer-pesan-col footer-pesan-nav">
-                <a href="{{ route('home') }}">Beranda</a>
-                <a href="{{ route('tentang') }}">Tentang Kami</a>
-                <a href="{{ route('layanan.user') }}">Layanan</a>
-                <a href="{{ route('status_pesanan') }}">Status Pesanan</a>
-                <a href="{{ route('home') }}#testimoni">Testimoni</a>
+            {{-- Col 2: Navigation Links --}}
+            <div class="footer-col footer-nav-group" data-animate="fade-up" data-delay="100">
+                <div class="footer-links">
+                    <a href="#beranda">Beranda</a>
+                    <a href="{{ route('tentang') }}">Tentang Kami</a>
+                    <a href="{{ route('layanan.user') }}">Layanan</a>
+                </div>
+                <div class="footer-links">
+                    <a href="#daftar-harga">Daftar Harga</a>
+                    <a href="{{ route('status_pesanan') }}">Status Pesanan</a>
+                    <a href="#testimoni">Testimoni</a>
+                </div>
             </div>
 
-            {{-- Col 3: Contact & Address & Masuk Admin --}}
-            <div class="footer-pesan-col footer-pesan-contact">
-                <p>Jl. Mawar, Kalimantan Tengah</p>
-                <p>0812-3456-7890</p>
-                <a href="{{ route('login') }}" class="footer-pesan-admin">Masuk Admin</a>
+            {{-- Divider 1 --}}
+            <div class="footer-divider"></div>
+
+            {{-- Col 3: Contact & Address --}}
+            <div class="footer-col footer-contact" data-animate="fade-up" data-delay="200">
+                <p>Jl. Mistar Cokrokusukmo</p>
+                <p>0812 5004 8608</p>
             </div>
+
+            {{-- Divider 2 --}}
+            <div class="footer-divider"></div>
 
             {{-- Col 4: Social Media --}}
-            <div class="footer-pesan-col footer-pesan-social">
+            <div class="footer-col footer-social" data-animate="fade-up" data-delay="300">
                 <span>Ikuti Kami</span>
-                <div class="pesan-social-icons">
+                <div class="social-icons">
                     <a href="#" aria-label="Instagram">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                         </svg>
                     </a>
                     <a href="#" aria-label="WhatsApp">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                         </svg>
                     </a>
                     <a href="#" aria-label="Facebook">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                         </svg>
                     </a>
@@ -636,127 +682,244 @@
             </div>
 
         </div>
+
+        {{-- Bottom Copyright --}}
+        <div class="footer-bottom">
+            <p>&copy; 2026 Laundry Azzam. All rights reserved</p>
+        </div>
     </footer>
 
-    {{-- Simple toggle script for mobile navbar --}}
+
+    {{-- Lenis Smooth Scroll JS --}}
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    {{-- JS --}}
+    <script src="{{ asset('js/landing/home.js') }}"></script>
+
+    {{-- SCRIPT PEMESANAN LAUNDRY AZZAM --}}
     <script>
-        var navToggle = document.getElementById('navToggle');
-        var navMenu = document.getElementById('navMenu');
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // ==========================================
+        // 1. NAVBAR MOBILE
+        // ==========================================
+
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
         if (navToggle && navMenu) {
             navToggle.addEventListener('click', function () {
                 navToggle.classList.toggle('active');
                 navMenu.classList.toggle('open');
             });
         }
-            // Mengambil elemen pilihan layanan dan jumlah cucian
-    const serviceSelect = document.getElementById('services_id');
-    const jumlahInput = document.getElementById('jumlah');
 
-    // Elemen untuk menampilkan harga
-    const subtotalPreview = document.getElementById('subtotalPreview');
-    const totalPreview = document.getElementById('totalPreview');
 
-    // Biaya antar sementara Rp0
-    const deliveryFee = 0;
+        // ==========================================
+        // 2. MENGAMBIL ELEMEN FORM
+        // ==========================================
 
-    // Mengubah angka menjadi format Rupiah
-    function formatRupiah(angka) {
-        return 'Rp ' + Math.round(angka).toLocaleString('id-ID');
-    }
+        const serviceSelect = document.getElementById('services_id');
+        const jumlahInput = document.getElementById('jumlah');
+        const zoneSelect = document.getElementById('delivery_zone_id');
 
-    // Menghitung harga pesanan
-    function calculatePrice() {
+        const subtotalPreview = document.getElementById('subtotalPreview');
+        const deliveryPreview = document.getElementById('deliveryPreview');
+        const totalPreview = document.getElementById('totalPreview');
 
-        // Mendapatkan pilihan layanan pelanggan
-        const selectedOption =
-            serviceSelect.options[serviceSelect.selectedIndex];
 
-        // Mengambil harga dari pilihan layanan
-        const price = Number(
-            selectedOption?.dataset.price || 0
+        // ==========================================
+        // 3. FORMAT RUPIAH
+        // ==========================================
+
+        function formatRupiah(angka) {
+            return 'Rp ' + Math.round(angka).toLocaleString('id-ID');
+        }
+
+        // Mengubah nilai dari database menjadi angka
+        function getNumericValue(value) {
+            const number = Number.parseFloat(value ?? 0);
+            return Number.isFinite(number) ? number : 0;
+        }
+
+
+        // ==========================================
+        // 4. PERHITUNGAN HARGA OTOMATIS
+        // ==========================================
+
+        function calculatePrice() {
+
+            // Mengambil layanan yang dipilih
+            const selectedService = serviceSelect?.selectedOptions[0];
+
+            // Mengambil harga layanan dari data-price
+            const servicePrice = getNumericValue(
+                selectedService?.dataset.price
+            );
+
+
+            // Mengambil jumlah cucian
+            const jumlah = Math.max(
+                0,
+                getNumericValue(jumlahInput?.value)
+            );
+
+
+            // Mengambil zona yang dipilih
+            const selectedZone = zoneSelect?.selectedOptions[0];
+
+            // Mengambil biaya antar dari data-fee
+            const deliveryFee = getNumericValue(
+                selectedZone?.dataset.fee
+            );
+
+
+            // Menghitung subtotal
+            const subtotal = servicePrice * jumlah;
+
+
+            // Menghitung total pembayaran
+            const total = subtotal + deliveryFee;
+
+
+            // Menampilkan subtotal
+            if (subtotalPreview) {
+                subtotalPreview.textContent = formatRupiah(subtotal);
+            }
+
+
+            // Menampilkan biaya antar
+            if (deliveryPreview) {
+                deliveryPreview.textContent = formatRupiah(deliveryFee);
+            }
+
+
+            // Menampilkan total
+            if (totalPreview) {
+                totalPreview.textContent = formatRupiah(total);
+            }
+
+        }
+
+
+        // ==========================================
+        // 5. EVENT PERUBAHAN FORM
+        // ==========================================
+
+        // Ketika layanan berubah
+        serviceSelect?.addEventListener('change', calculatePrice);
+
+        // Ketika berat cucian berubah
+        jumlahInput?.addEventListener('input', calculatePrice);
+
+        // Ketika zona pengiriman berubah
+        zoneSelect?.addEventListener('change', calculatePrice);
+
+        // Menghitung harga ketika halaman pertama dibuka
+        calculatePrice();
+
+
+        // ==========================================
+        // 6. TANGGAL JEMPUT DAN TANGGAL ANTAR
+        // ==========================================
+
+        const pickupDate = document.getElementById('pickup_date');
+        const deliveryDate = document.getElementById('delivery_date');
+
+        if (pickupDate && deliveryDate) {
+
+            // Mengatur batas minimum tanggal antar
+            function updateDeliveryDate() {
+
+                const selectedDate = pickupDate.value;
+
+                if (selectedDate) {
+                    deliveryDate.min = selectedDate;
+                }
+
+                // Menghapus tanggal antar yang lebih awal
+                if (
+                    deliveryDate.value &&
+                    selectedDate &&
+                    deliveryDate.value < selectedDate
+                ) {
+                    deliveryDate.value = '';
+                }
+            }
+
+            pickupDate.addEventListener('change', updateDeliveryDate);
+
+            // Menyesuaikan saat halaman dibuka
+            updateDeliveryDate();
+        }
+
+
+        // ==========================================
+        // 7. METODE PEMBAYARAN
+        // ==========================================
+
+        const paymentRadios = document.querySelectorAll(
+            'input[name="payment_method"]'
         );
 
-        // Mengambil jumlah cucian
-        const jumlah = Number(jumlahInput.value || 0);
 
-        // Menghitung subtotal dan total
-        const subtotal = price * jumlah;
-        const total = subtotal + deliveryFee;
-
-        // Memperbarui tampilan harga
-        subtotalPreview.textContent = formatRupiah(subtotal);
-        totalPreview.textContent = formatRupiah(total);
-    }
-
-    // Hitung ulang jika layanan berubah
-    serviceSelect.addEventListener('change', calculatePrice);
-
-    // Hitung ulang jika jumlah berubah
-    jumlahInput.addEventListener('input', calculatePrice);
-
-    // Hitung harga saat halaman pertama dibuka
-    calculatePrice();
+        // Instruksi setiap metode pembayaran
+        const paymentInstructions = {
+            'QRIS': document.getElementById('qrisInstruction'),
+            'BCA': document.getElementById('bcaInstruction'),
+            'E-WALLET': document.getElementById('ewalletInstruction'),
+            'TUNAI': document.getElementById('cashInstruction')
+        };
 
 
-    // Menyesuaikan tanggal antar dengan tanggal jemput
-    const pickupDate = document.getElementById('pickup_date');
-    const deliveryDate = document.getElementById('delivery_date');
+        // Menampilkan instruksi sesuai metode
+        function showPaymentInstruction() {
 
-    pickupDate.addEventListener('change', function () {
+            // Menyembunyikan semua instruksi
+            Object.values(paymentInstructions).forEach(function (element) {
+                if (element) {
+                    element.hidden = true;
+                }
+            });
 
-        deliveryDate.min = this.value;
 
-        if (
-            deliveryDate.value &&
-            deliveryDate.value < this.value
-        ) {
-            deliveryDate.value = '';
+            // Mengambil metode yang dipilih
+            const selectedPayment = document.querySelector(
+                'input[name="payment_method"]:checked'
+            );
+
+
+            // Jika belum memilih metode
+            if (!selectedPayment) {
+                return;
+            }
+
+
+            // Menampilkan instruksi metode terpilih
+            const selectedInstruction =
+                paymentInstructions[selectedPayment.value];
+
+            if (selectedInstruction) {
+                selectedInstruction.hidden = false;
+            }
+
         }
-    });
 
-        // Mengambil semua pilihan metode pembayaran
-    const paymentRadios = document.querySelectorAll(
-        'input[name="payment_method"]'
-    );
 
-    // Mengambil setiap kotak instruksi
-    const paymentInstructions = {
-        QRIS: document.getElementById('qrisInstruction'),
-        BCA: document.getElementById('bcaInstruction'),
-        'E-WALLET': document.getElementById('ewalletInstruction'),
-        TUNAI: document.getElementById('cashInstruction')
-    };
-
-    // Menampilkan instruksi sesuai pilihan
-    function showPaymentInstruction() {
-
-        // Menyembunyikan semua instruksi
-        Object.values(paymentInstructions).forEach(function(element) {
-            element.hidden = true;
+        // Event ketika metode pembayaran dipilih
+        paymentRadios.forEach(function (radio) {
+            radio.addEventListener('change', showPaymentInstruction);
         });
 
-        // Mencari metode yang dipilih
-        const selected = document.querySelector(
-            'input[name="payment_method"]:checked'
-        );
 
-        // Jika belum memilih, tidak menampilkan instruksi
-        if (!selected) {
-            return;
-        }
+        // Mempertahankan pilihan setelah validasi gagal
+        showPaymentInstruction();
 
-        // Menampilkan instruksi metode terpilih
-        paymentInstructions[selected.value].hidden = false;
-    }
 
-    // Menjalankan fungsi saat metode berubah
-    paymentRadios.forEach(function(radio) {
-        radio.addEventListener('change', showPaymentInstruction);
     });
-
-    // Mempertahankan pilihan lama setelah validasi gagal
-    showPaymentInstruction();
     </script>
+
+
 </body>
 
 </html>

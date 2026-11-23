@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class DetailPesananController extends Controller
 {
@@ -19,12 +18,14 @@ class DetailPesananController extends Controller
         return view('detail_pesanan', compact('orders'));
     }
 
-    // Menampilkan detail pesanan berdasarkan ID
+
+    // Menampilkan rincian satu pesanan
     public function show($id)
     {
-        // Mengambil pesanan, layanan, dan pembayaran
+        // Mengambil pesanan beserta layanan, zona, dan pembayaran
         $order = Order::with([
             'service',
+            'deliveryZone',
             'payments',
         ])->findOrFail($id);
 
@@ -32,81 +33,159 @@ class DetailPesananController extends Controller
     }
 
 
-    // Memperbarui informasi pesanan oleh admin
+    // Memperbarui detail pesanan oleh admin
     public function update(Request $request, $id)
     {
-        // Mencari pesanan berdasarkan ID
+        // Mencari pesanan
         $order = Order::findOrFail($id);
 
-        // Validasi data yang boleh diubah admin
-        $validated = $request->validate([
+        // Mengambil pembayaran yang terkait
+        $payment = $order->payments()->first();
+
+
+        // Aturan validasi
+        $rules = [
+
+            // Status pengerjaan laundry
             'orders_status' => 'required|in:PENDING,COMPLETE',
 
-            'delivery_date' => 'nullable|date',
+            // Tanggal antar tidak boleh sebelum tanggal jemput
+            'delivery_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:' . $order->pickup_date,
+            ],
 
+            // Catatan pelanggan
             'notes' => 'nullable|string',
 
+            // Dokumen pesanan
             'dokumen' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
+        ];
 
-        // Memastikan tanggal antar tidak sebelum tanggal jemput
+
+        // Validasi status pembayaran jika transaksi tersedia
+        if ($payment) {
+            $rules['payment_status'] =
+                'required|in:MENUNGGU_VERIFIKASI,TERVERIFIKASI';
+        }
+
+
+        $validated = $request->validate($rules);
+
+
+        // Pembayaran tidak boleh diverifikasi tanpa bukti
         if (
-            !empty($validated['delivery_date']) &&
-            Carbon::parse($validated['delivery_date'])
-                ->lt(Carbon::parse($order->pickup_date))
+            $payment &&
+            $validated['payment_status'] === 'TERVERIFIKASI' &&
+            !$payment->payment_proof
         ) {
             return back()
                 ->withInput()
                 ->withErrors([
-                    'delivery_date' =>
-                        'Tanggal antar tidak boleh sebelum tanggal jemput.',
+                    'payment_status' =>
+                        'Pembayaran belum memiliki bukti untuk diverifikasi.',
                 ]);
         }
 
-        // Menyimpan nama dokumen lama
+
+        // Menyimpan path dokumen lama
         $oldDocument = $order->order_detail_dok;
+
+        // Menyiapkan path dokumen baru
+        $newDocumentPath = null;
+
 
         // Jika admin mengunggah dokumen baru
         if ($request->hasFile('dokumen')) {
 
-            $file = $request->file('dokumen');
+            $newDocumentPath = $request->file('dokumen')
+                ->store('order-documents', 'public');
 
-            // Membuat nama dokumen baru yang unik
-            $fileName = Str::random(24) . '.' . $file->extension();
-
-            // Menyimpan dokumen di storage/app/public
-            Storage::disk('public')->putFileAs(
-                '',
-                $file,
-                $fileName
-            );
-
-            // Mengubah kolom dokumen dengan nama file baru
-            $order->order_detail_dok = $fileName;
+            if (!$newDocumentPath) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'dokumen' => 'Dokumen gagal diunggah.',
+                    ]);
+            }
         }
 
-        // Memperbarui status pesanan
-        $order->orders_status = $validated['orders_status'];
 
-        // Memperbarui tanggal antar
-        $order->delivery_date = $validated['delivery_date'] ?? null;
+        try {
 
-        // Memperbarui catatan
-        $order->notes = $validated['notes'] ?? null;
+            // Memulai transaksi database
+            DB::transaction(function () use (
+                $order,
+                $payment,
+                $validated,
+                $newDocumentPath
+            ) {
 
-        // Menyimpan semua perubahan
-        $order->save();
+                // Memperbarui status pesanan
+                $order->orders_status = $validated['orders_status'];
+
+                // Memperbarui tanggal antar
+                $order->delivery_date =
+                    $validated['delivery_date'] ?? null;
+
+                // Memperbarui catatan
+                $order->notes = $validated['notes'] ?? null;
+
+                // Memperbarui dokumen jika ada file baru
+                if ($newDocumentPath) {
+                    $order->order_detail_dok = $newDocumentPath;
+                }
+
+                // Simpan pesanan
+                $order->save();
+
+
+                // Memperbarui status pembayaran
+                if ($payment) {
+
+                    $payment->payment_status =
+                        $validated['payment_status'];
+
+                    // Menyimpan waktu verifikasi
+                    if ($validated['payment_status'] === 'TERVERIFIKASI') {
+
+                        $payment->paid_at =
+                            $payment->paid_at ?? now();
+
+                    } else {
+
+                        $payment->paid_at = null;
+                    }
+
+                    $payment->save();
+                }
+
+            });
+
+
+        } catch (\Throwable $e) {
+
+            // Menghapus dokumen baru jika database gagal menyimpan
+            if ($newDocumentPath) {
+                Storage::disk('public')->delete($newDocumentPath);
+            }
+
+            throw $e;
+        }
+
 
         // Menghapus dokumen lama setelah dokumen baru berhasil disimpan
         if (
-            $request->hasFile('dokumen') &&
+            $newDocumentPath &&
             $oldDocument &&
-            $oldDocument !== $order->order_detail_dok
+            $oldDocument !== $newDocumentPath
         ) {
             Storage::disk('public')->delete($oldDocument);
         }
 
-        // Kembali ke halaman detail pesanan
+
+        // Kembali ke halaman rincian pesanan
         return redirect()
             ->route('detail_pesanan.show', $order->orders_id)
             ->with('success', 'Detail pesanan berhasil diperbarui!');
