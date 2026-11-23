@@ -1,0 +1,313 @@
+/* ===================================================
+   LAUNDRY AZZAM - LAYANAN KAMI (USER / LANDING PAGE) CSS
+   Matches the design mockup 100%
+   With smooth animations, hover effects, and responsive design
+   =================================================== */
+
+/* Footer Fix */
+.footer-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+}
+
+.footer-logo img {
+    height: 48px !important;
+    max-height: 50px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.footer-brand .footer-tagline {
+    font-size: 12px !important;
+    color: #ffffff !important;
+    line-height: 1.45 !important;
+    max-width: 210px !important;
+    margin: 0 !important;
+}
+
+/* ===================================================
+   SECTION 1: PILIHAN LAYANAN LAUNDRY TERBAIK
+   =================================================== */
+.user-services-section {
+    max-width: 1200px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+}
+
+.user-services-header {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.user-services-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #3f9a4b;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.user-services-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #23783b;
+    margin: 0 0 8px 0;
+}
+
+.user-services-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Big panel wrapper for services */
+.user-services-wrapper {
+    background: #f8faf8;
+    border-radius: 24px;
+    padding: 32px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.user-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Individual Service Card */
+.user-service-card {
+    background: #ffffff;
+    border: 1px solid #e8edea;
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+}
+
+.user-service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(46, 125, 50, 0.08);
+    border-color: #c8e6c9;
+}
+
+.service-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.service-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #ebf9e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #2e7d32;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.user-service-card:hover .service-card-icon {
+    transform: scale(1.08);
+    background: #def4dc;
+}
+
+.service-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #23783b;
+    margin: 0;
+}
+
+.service-card-desc {
+    font-size: 11.5px;
+    color: #64748b;
+    line-height: 1.45;
+    margin: 0 0 14px 0;
+    flex-grow: 1;
+}
+
+.service-card-divider {
+    height: 1px;
+    background: #edf2ee;
+    margin: 0 0 12px 0;
+}
+
+.service-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.service-card-price {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #23783b;
+}
+
+.btn-pesan-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-pesan-card:hover {
+    background: #23783b;
+    color: #ffffff;
+    border-color: #23783b;
+}
+
+.btn-pesan-card svg {
+    transition: transform 0.2s ease;
+}
+
+.btn-pesan-card:hover svg {
+    transform: translateX(2px);
+}
+
+
+/* ===================================================
+   SECTION 2: CARA PEMESANAN MUDAH
+   =================================================== */
+.user-steps-section {
+    max-width: 1200px;
+    margin: 0 auto 72px;
+    padding: 0 24px;
+}
+
+.user-steps-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.user-steps-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #23783b;
+    margin: 0 0 8px 0;
+}
+
+.user-steps-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.user-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.user-step-card {
+    background: #ffffff;
+    border: 1px solid #e8edea;
+    border-radius: 14px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease;
+}
+
+.user-step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(46, 125, 50, 0.07);
+    border-color: #c8e6c9;
+}
+
+.step-tag-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #3f9a4b;
+    background: #ebf9e9;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.step-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #23783b;
+    margin: 0 0 6px 0;
+}
+
+.step-card-desc {
+    font-size: 11.5px;
+    color: #64748b;
+    line-height: 1.45;
+    margin: 0;
+}
+
+
+/* ===================================================
+   RESPONSIVE DESIGN
+   =================================================== */
+@media (max-width: 1024px) {
+    .user-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .user-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .user-services-wrapper {
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .user-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-services-title {
+        font-size: 21px;
+    }
+
+    .user-steps-title {
+        font-size: 20px;
+    }
+
+    .user-services-wrapper {
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
+}

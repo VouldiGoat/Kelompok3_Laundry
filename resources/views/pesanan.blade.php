@@ -66,47 +66,51 @@
                             @forelse ($orders as $order)
                                 <tr>
                                     {{-- Nomor urut --}}
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="col-no">{{ sprintf('%02d', $loop->iteration) }}</td>
 
                                     {{-- Nomor pesanan --}}
-                                    <td>
-                                        ORD-{{ str_pad($order->orders_id, 5, '0', STR_PAD_LEFT) }}
+                                    <td class="col-ord">
+                                        #{{ sprintf('%03d', $order->orders_id) }}
                                     </td>
 
                                     {{-- Nama pelanggan --}}
-                                    <td>{{ $order->nama_pemesan }}</td>
+                                    <td class="col-name">{{ $order->nama_pemesan }}</td>
 
                                     {{-- Jenis layanan --}}
-                                    <td>{{ $order->services_name ?? '-' }}</td>
+                                    <td class="col-service">{{ $order->services_name ?? '-' }}</td>
 
                                     {{-- Tanggal masuk --}}
-                                    <td>
+                                    <td class="col-date">
                                         {{ $order->created_at
-                                            ? \Carbon\Carbon::parse($order->created_at)->format('d/m/Y')
+                                            ? \Carbon\Carbon::parse($order->created_at)->translatedFormat('d M Y')
                                             : '-' }}
                                     </td>
 
                                     {{-- Status pesanan --}}
-                                    <td>{{ $order->orders_status ?? 'PENDING' }}</td>
+                                    <td class="col-status">
+                                        @php
+                                            $st = strtolower($order->orders_status ?? 'diproses');
+                                        @endphp
+                                        @if (str_contains($st, 'selesai') || str_contains($st, 'completed'))
+                                            <span class="badge badge-green">Selesai</span>
+                                        @else
+                                            <span class="badge badge-peach">Diproses</span>
+                                        @endif
+                                    </td>
 
                                     {{-- Total harga --}}
-                                    <td>
-                                        Rp {{ number_format($order->total, 0, ',', '.') }}
+                                    <td class="col-total">
+                                        Rp{{ number_format($order->total ?? 0, 0, ',', '.') }}
                                     </td>
 
                                     {{-- Aksi --}}
-                                    <td>
+                                    <td class="col-action">
                                         <div class="actions">
-                                            <form action="{{ route('pesanan.destroy', $order->orders_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini? Pembayaran terkait juga akan terhapus.');" style="display:inline; margin:0; padding:0;">
+                                            <form action="{{ route('pesanan.destroy', $order->orders_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pesanan ini? Pembayaran terkait juga akan terhapus.');" class="table-action-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="act-btn btn-del" title="Hapus">
-                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                                </button>
+                                                <button type="submit" class="btn-del">Hapus</button>
                                             </form>
-                                            <a href="{{ route('detail_pesanan', $order->orders_id) }}" class="act-btn btn-view" title="Detail">
-                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -124,7 +128,7 @@
                 </div>
 
                 <div class="card-footer-bar">
-                    <span class="pagination-info">Menampilkan {{ $orders->count() }} dari {{ $orders->count() }} pesanan</span>
+                    <span class="pagination-info">Menampilkan 1 dari {{ $orders->count() }} pesanan</span>
                     <div class="pagination">
                         <button class="page-btn page-nav" title="Sebelumnya" disabled>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>

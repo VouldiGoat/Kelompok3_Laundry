@@ -39,13 +39,13 @@
 
             {{-- Action Bar --}}
             <div class="action-bar">
-                <a href="{{ route('layanan.tambah') }}" class="btn-add">
+                <a href="{{ route('layanan.tambah') }}" class="btn-add" id="btnOpenModalTambah">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                     <span>Tambah Data</span>
                 </a>
                 <div class="search-box">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8c8c8e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="15.8" y2="15.8"/></svg>
-                    <input type="text" placeholder="Cari nama Pelanggan" id="searchInput">
+                    <input type="text" placeholder="Cari Layanan" id="searchInput">
                 </div>
             </div>
 
@@ -59,7 +59,6 @@
                                 <th>Nama Layanan</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
-                                <th>Estimasi</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -74,19 +73,6 @@
                                     } elseif (str_contains($name, 'ambal') || str_contains($name, 'karpet')) {
                                         $unit = '/m²';
                                     }
-
-                                    $estimasi = '2 Hari';
-                                    if (str_contains($name, 'express') || str_contains($name, 'kilat')) {
-                                        $estimasi = '6 Jam';
-                                    } elseif (str_contains($name, 'setrika')) {
-                                        $estimasi = '1 Hari';
-                                    } elseif (str_contains($name, 'karpet') || str_contains($name, 'ambal')) {
-                                        $estimasi = '4 Hari';
-                                    } elseif (str_contains($name, 'bed cover') || str_contains($name, 'selimut') || str_contains($name, 'sprei') || str_contains($name, 'boneka') || str_contains($name, 'sepatu') || str_contains($name, 'tas') || str_contains($name, 'dry clean') || str_contains($name, 'jas')) {
-                                        $estimasi = '3 Hari';
-                                    } elseif (isset($layanan->estimasi)) {
-                                        $estimasi = $layanan->estimasi;
-                                    }
                                 @endphp
                                 <tr>
                                     <td class="col-no">{{ sprintf('%02d', $loop->iteration) }}</td>
@@ -99,8 +85,6 @@
 
                                     <td class="col-desc">"{{ trim($layanan->description ?? '-', "\" \t\n\r\0\x0B") }}"</td>
 
-                                    <td class="col-estimate">{{ $estimasi }}</td>
-
                                     <td class="col-status">
                                         @if ($layanan->is_active)
                                             <span class="badge-aktif">Aktif</span>
@@ -111,7 +95,12 @@
 
                                     <td class="col-action">
                                         <div class="actions">
-                                            <a href="{{ route('layanan.edit', $layanan->services_id) }}" class="btn-edit">Edit</a>
+                                            <a href="{{ route('layanan.edit', $layanan->services_id) }}" class="btn-edit"
+                                                data-id="{{ $layanan->services_id }}"
+                                                data-name="{{ $layanan->services_name }}"
+                                                data-price="{{ intval($layanan->price) }}"
+                                                data-desc="{{ $layanan->description }}"
+                                                data-status="{{ $layanan->is_active ? '1' : '0' }}">Edit</a>
                                             <form class="table-action-form" action="{{ route('layanan.destroy', $layanan->services_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
                                                 @csrf
                                                 @method('DELETE')
@@ -122,7 +111,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="empty-state">
+                                    <td colspan="6" class="empty-state">
                                         Belum ada data layanan.
                                     </td>
                                 </tr>
@@ -146,6 +135,184 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    {{-- ==================== MODAL TAMBAH DATA LAYANAN ==================== --}}
+    <div class="modal-overlay" id="modalTambahLayanan" style="{{ (isset($errors) && $errors->any()) ? 'display: flex;' : 'display: none;' }}">
+        <div class="modal-dialog">
+            {{-- Modal Header --}}
+            <div class="modal-header">
+                <h2 class="modal-title">Tambah Data Layanan</h2>
+            </div>
+
+            {{-- Modal Form --}}
+            <form action="{{ route('layanan.store') }}" method="POST" class="modal-form">
+                @csrf
+
+                <div class="modal-body">
+                    {{-- Error Alert --}}
+                    @if (isset($errors) && $errors->any())
+                        <div class="modal-error-alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- 1. Nama Layanan --}}
+                    <div class="modal-field">
+                        <label for="services_name">Nama Layanan</label>
+                        <input
+                            type="text"
+                            name="services_name"
+                            id="services_name"
+                            class="modal-input"
+                            placeholder="Contoh: Kemeja"
+                            value="{{ old('services_name') }}"
+                            maxlength="100"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    {{-- 2. Harga --}}
+                    <div class="modal-field">
+                        <label for="price">Harga</label>
+                        <div class="modal-input-prefix-box">
+                            <span class="input-prefix">RP</span>
+                            <input
+                                type="number"
+                                name="price"
+                                id="price"
+                                class="modal-input-inner"
+                                placeholder="Contoh: 1.000"
+                                value="{{ old('price') }}"
+                                min="0"
+                                max="9999999999.99"
+                                step="any"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    {{-- 3. Deskripsi --}}
+                    <div class="modal-field">
+                        <label for="description">Deskripsi</label>
+                        <input
+                            type="text"
+                            name="description"
+                            id="description"
+                            class="modal-input"
+                            placeholder="Jelaskan layanan laundry ini..."
+                            value="{{ old('description') }}"
+                        >
+                    </div>
+
+                    {{-- 4. Status Layanan --}}
+                    <div class="modal-field">
+                        <label for="is_active">Status Layanan</label>
+                        <div class="modal-select-box">
+                            <select name="is_active" id="is_active" class="modal-select" required>
+                                <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Aktif</option>
+                                <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Nonaktif</option>
+                            </select>
+                            <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Modal Footer --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" id="btnCancelModal">Batal</button>
+                    <button type="submit" class="btn-modal-submit">+ Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- ==================== MODAL EDIT DATA LAYANAN ==================== --}}
+    <div class="modal-overlay" id="modalEditLayanan" style="display: none;">
+        <div class="modal-dialog">
+            {{-- Modal Header --}}
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Data Layanan</h2>
+            </div>
+
+            {{-- Modal Form --}}
+            <form action="{{ route('layanan') }}" method="GET" class="modal-form" id="formEditLayanan">
+                <div class="modal-body">
+                    {{-- 1. Nama Layanan --}}
+                    <div class="modal-field">
+                        <label for="edit_services_name">Nama Layanan</label>
+                        <input
+                            type="text"
+                            name="services_name"
+                            id="edit_services_name"
+                            class="modal-input"
+                            placeholder="Contoh: Kemeja"
+                            maxlength="100"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    {{-- 2. Harga --}}
+                    <div class="modal-field">
+                        <label for="edit_price">Harga</label>
+                        <div class="modal-input-prefix-box">
+                            <span class="input-prefix">RP</span>
+                            <input
+                                type="number"
+                                name="price"
+                                id="edit_price"
+                                class="modal-input-inner"
+                                placeholder="Contoh: 1.000"
+                                min="0"
+                                max="9999999999.99"
+                                step="any"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    {{-- 3. Deskripsi --}}
+                    <div class="modal-field">
+                        <label for="edit_description">Deskripsi</label>
+                        <input
+                            type="text"
+                            name="description"
+                            id="edit_description"
+                            class="modal-input"
+                            placeholder="Jelaskan layanan laundry ini..."
+                        >
+                    </div>
+
+                    {{-- 4. Status Layanan --}}
+                    <div class="modal-field">
+                        <label for="edit_is_active">Status Layanan</label>
+                        <div class="modal-select-box">
+                            <select name="is_active" id="edit_is_active" class="modal-select" required>
+                                <option value="1">Aktif</option>
+                                <option value="0">Nonaktif</option>
+                            </select>
+                            <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Modal Footer --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-cancel" id="btnCancelEditModal">Batal</button>
+                    <button type="submit" class="btn-modal-submit">Simpan</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="{{ asset('js/layanan.js') }}"></script>

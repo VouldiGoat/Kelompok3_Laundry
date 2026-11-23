@@ -28,6 +28,50 @@ Route::get('/tentang', function () {
     return view('landing.tentang');
 });
 
+// Halaman Layanan Pelanggan (User / Landing)
+Route::get('/layanan-kami', function () {
+    return view('landing.layanan');
+})->name('layanan.user');
+
+Route::get('/layanan-pelanggan', function () {
+    return view('landing.layanan');
+});
+
+// Halaman Status Pesanan (User / Landing)
+Route::get('/status-pesanan', function (\Illuminate\Http\Request $request) {
+    $search = $request->input('q') ?? $request->input('nomor') ?? $request->input('search');
+    $orderResult = null;
+    $hasSearched = false;
+
+    if ($search) {
+        $hasSearched = true;
+        $cleanId = ltrim(trim($search), '#');
+        $cleanId = ltrim($cleanId, '0');
+
+        $query = \App\Models\Order::with('service');
+        if (is_numeric($cleanId) && (int)$cleanId > 0) {
+            $orderResult = $query->where('orders_id', (int)$cleanId)
+                ->orWhere('nama_pemesan', 'like', "%{$search}%")
+                ->latest()
+                ->first();
+        } else {
+            $orderResult = $query->where('nama_pemesan', 'like', "%{$search}%")
+                ->latest()
+                ->first();
+        }
+    }
+
+    return view('landing.status_pesanan', [
+        'search' => $search,
+        'orderResult' => $orderResult,
+        'hasSearched' => $hasSearched
+    ]);
+})->name('status_pesanan');
+
+Route::get('/cek-status', function (\Illuminate\Http\Request $request) {
+    return redirect()->route('status_pesanan', $request->all());
+});
+
 // ======================================
 // FORM PEMESANAN (DARI LANDING PAGE)
 // ======================================

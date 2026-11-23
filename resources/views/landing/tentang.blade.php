@@ -34,8 +34,8 @@
             <nav class="navbar-menu" id="navMenu">
                 <a href="{{ route('home') }}" class="nav-link">Beranda</a>
                 <a href="{{ route('tentang') }}" class="nav-link active">Tentang Kami</a>
-                <a href="{{ route('home') }}#layanan" class="nav-link">Layanan</a>
-                <a href="{{ route('home') }}#status-pesanan" class="nav-link">Status Pesanan</a>
+                <a href="{{ route('layanan.user') }}" class="nav-link">Layanan</a>
+                <a href="{{ route('status_pesanan') }}" class="nav-link">Status Pesanan</a>
                 <a href="{{ route('home') }}#testimoni" class="nav-link">Testimoni</a>
 
                 {{-- Mobile Menu Actions --}}
@@ -262,11 +262,11 @@
                 <div class="footer-links">
                     <a href="{{ route('home') }}">Beranda</a>
                     <a href="{{ route('tentang') }}">Tentang Kami</a>
-                    <a href="{{ route('home') }}#layanan">Layanan</a>
+                    <a href="{{ route('layanan.user') }}">Layanan</a>
                 </div>
                 <div class="footer-links">
                     <a href="{{ route('home') }}#daftar-harga">Daftar Harga</a>
-                    <a href="{{ route('home') }}#status-pesanan">Status Pesanan</a>
+                    <a href="{{ route('status_pesanan') }}">Status Pesanan</a>
                     <a href="{{ route('home') }}#testimoni">Testimoni</a>
                 </div>
             </div>
