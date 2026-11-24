@@ -135,6 +135,7 @@
     </div>
 
     {{-- ==================== MODAL EDIT DATA LAYANAN ==================== --}}
+    @if ($currentLayanan)
     <div class="modal-overlay" id="modalEditLayanan" style="display: flex;">
         <div class="modal-dialog">
             {{-- Modal Header --}}
@@ -143,72 +144,92 @@
             </div>
 
             {{-- Modal Form --}}
-            <form action="{{ route('layanan') }}" method="GET" class="modal-form">
-                <div class="modal-body">
-                    {{-- 1. Nama Layanan --}}
-                    <div class="modal-field">
-                        <label for="services_name">Nama Layanan</label>
-                        <input
-                            type="text"
-                            name="services_name"
-                            id="services_name"
-                            class="modal-input"
-                            placeholder="Contoh: Kemeja"
-                            value="{{ old('services_name', $currentLayanan->services_name ?? 'Cuci Komplit') }}"
-                            maxlength="100"
-                            required
-                            autocomplete="off"
-                            autofocus
-                        >
-                    </div>
-
-                    {{-- 2. Harga --}}
-                    <div class="modal-field">
-                        <label for="price">Harga</label>
-                        <div class="modal-input-prefix-box">
-                            <span class="input-prefix">RP</span>
+            <form action="{{ route('layanan.update', $currentLayanan->services_id) }}" method="POST" class="modal-form">
+                @csrf
+                @method('PUT')
+                    <div class="modal-body">
+                        {{-- 1. Nama Layanan --}}
+                        <div class="modal-field">
+                            <label for="services_name">Nama Layanan</label>
                             <input
-                                type="number"
-                                name="price"
-                                id="price"
-                                class="modal-input-inner"
-                                placeholder="Contoh: 1.000"
-                                value="{{ old('price', isset($currentLayanan->price) ? intval($currentLayanan->price) : 8000) }}"
-                                min="0"
-                                max="9999999999.99"
-                                step="any"
+                                type="text"
+                                name="services_name"
+                                id="services_name"
+                                class="modal-input"
+                                placeholder="Contoh: Kemeja"
+                                value="{{ old('services_name', $currentLayanan->services_name) }}"
+                                maxlength="100"
                                 required
+                                autocomplete="off"
                             >
                         </div>
-                    </div>
 
-                    {{-- 3. Deskripsi --}}
-                    <div class="modal-field">
-                        <label for="description">Deskripsi</label>
-                        <input
-                            type="text"
-                            name="description"
-                            id="description"
-                            class="modal-input"
-                            placeholder="Jelaskan layanan laundry ini..."
-                            value="{{ old('description', $currentLayanan->description ?? 'Cuci bersih, wangi, kering sempurna, dan disetrika rapi.') }}"
-                        >
-                    </div>
-
-                    {{-- 4. Status Layanan --}}
-                    <div class="modal-field">
-                        <label for="is_active">Status Layanan</label>
-                        <div class="modal-select-box">
-                            <select name="is_active" id="is_active" class="modal-select" required>
-                                <option value="1" {{ old('is_active', $currentLayanan->is_active ?? 1) == 1 ? 'selected' : '' }}>Aktif</option>
-                                <option value="0" {{ old('is_active', $currentLayanan->is_active ?? 1) == 0 ? 'selected' : '' }}>Nonaktif</option>
-                            </select>
-                            <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
+                        {{-- 2. Harga --}}
+                        <div class="modal-field">
+                            <label for="price">Harga</label>
+                            <div class="modal-input-prefix-box">
+                                <span class="input-prefix">RP</span>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    id="price"
+                                    class="modal-input-inner"
+                                    placeholder="Contoh: 10000"
+                                    value="{{ old('price', $currentLayanan->price) }}"
+                                    min="0"
+                                    max="9999999999.99"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                        {{-- 3. Deskripsi --}}
+                        <div class="modal-field">
+                            <label for="description">Deskripsi</label>
+                            <input
+                                type="text"
+                                name="description"
+                                id="description"
+                                class="modal-input"
+                                placeholder="Jelaskan layanan laundry ini..."
+                                value="{{ old('description', $currentLayanan->description) }}"
+                            >
+                        </div>
+
+                        {{-- 4. Status Layanan --}}
+                        <div class="modal-field">
+                            <label for="is_active">Status Layanan</label>
+                                <div class="modal-select-box">
+                                <select
+                                    name="is_active"
+                                    id="is_active"
+                                    class="modal-select"
+                                    required
+                                >
+
+                                    <option
+                                        value="1"
+                                        @selected((string) old('is_active', (int) $currentLayanan->is_active) === '1')
+                                    >
+                                        Aktif
+                                    </option>
+
+                                    <option
+                                        value="0"
+                                        @selected((string) old('is_active', (int) $currentLayanan->is_active) === '0')
+                                    >
+                                        Nonaktif
+                                    </option>
+
+                                </select>
+                                <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                @endif
+            </div>
 
                 {{-- Modal Footer --}}
                 <div class="modal-footer">

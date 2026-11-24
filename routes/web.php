@@ -136,6 +136,19 @@ Route::prefix('login')
         // Menghapus layanan
         Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])
             ->name('layanan.destroy');
+        
+        // Menampilkan daftar layanan
+        Route::get('/layanan', [LayananController::class, 'index'])
+            ->name('layanan');
+
+        // Menampilkan modal edit berdasarkan ID
+        Route::get('/layanan/{id}/edit', [LayananController::class, 'edit'])
+            ->name('layanan.edit');
+
+        // Menyimpan perubahan layanan
+        Route::put('/layanan/{id}', [LayananController::class, 'update'])
+            ->name('layanan.update');
+
 
         // Detail Pesanan
         
