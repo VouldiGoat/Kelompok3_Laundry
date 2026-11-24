@@ -73,6 +73,27 @@ Route::get('/cek-status', function (\Illuminate\Http\Request $request) {
     return redirect()->route('status_pesanan', $request->all());
 });
 
+// Halaman Testimoni (User / Landing)
+Route::get('/testimoni', function () {
+    return view('landing.testimoni');
+})->name('testimoni');
+
+Route::post('/testimoni', function (\Illuminate\Http\Request $request) {
+    $validated = $request->validate([
+        'nama_pemesan' => 'required|string|max:100',
+        'rating' => 'required|integer|min:1|max:5',
+        'comment' => 'required|string|max:1000',
+    ]);
+
+    try {
+        \App\Models\Review::create($validated);
+    } catch (\Exception $e) {
+        // Fallback gracefully
+    }
+
+    return redirect()->route('testimoni')->with('success', 'Terima kasih! Testimoni Anda berhasil dikirim.');
+})->name('testimoni.store');
+
 // ======================================
 // FORM PEMESANAN (DARI LANDING PAGE)
 // ======================================

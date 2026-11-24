@@ -36,7 +36,7 @@
                 <a href="{{ route('tentang') }}" class="nav-link">Tentang Kami</a>
                 <a href="{{ route('layanan.user') }}" class="nav-link">Layanan</a>
                 <a href="{{ route('status_pesanan') }}" class="nav-link active">Status Pesanan</a>
-                <a href="{{ route('home') }}#testimoni" class="nav-link">Testimoni</a>
+                <a href="{{ route('testimoni') }}" class="nav-link">Testimoni</a>
 
                 {{-- Mobile Menu Actions --}}
                 <div class="mobile-menu-actions">
@@ -285,7 +285,7 @@
                 <div class="footer-links">
                     <a href="{{ route('home') }}#daftar-harga">Daftar Harga</a>
                     <a href="{{ route('status_pesanan') }}">Status Pesanan</a>
-                    <a href="{{ route('home') }}#testimoni">Testimoni</a>
+                    <a href="{{ route('testimoni') }}">Testimoni</a>
                 </div>
             </div>
 
